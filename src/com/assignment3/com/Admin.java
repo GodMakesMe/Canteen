@@ -1,18 +1,20 @@
 package com.assignment3.com;
 
 public class Admin extends FoodOrderingSystem{   // I hate there is a single admin
-	private boolean adminLogin = false;
+	private boolean adminLogin;
 	private final String LoginID;
 	private final String Password;
 
 	Admin(){
 		this.LoginID = "krishna";
 		this.Password = "godmakesme";
+		this.adminLogin = false;
 	}
 
 	Admin(String LoginID, String Password){
 		this.LoginID = LoginID;
 		this.Password = Password;
+		this.adminLogin = false;
 	}
 	void logOut(){
 		this.adminLogin = false;
