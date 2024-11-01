@@ -7,6 +7,7 @@ public class Customer extends FoodOrderingSystem{
 	String LoginID;
 	String Password;
 	boolean VIPStatus;
+	Order cart;
 	public Customer(){
 		this.customerLogin = false;
 		this.CustomerName = null;
@@ -14,6 +15,7 @@ public class Customer extends FoodOrderingSystem{
 		this.LoginID = null;
 		this.Password = null;
 		this.VIPStatus = false;
+		cart = new Order(this);
 	}
 	Customer(String LoginID, String Password){
 		this.LoginID = LoginID;

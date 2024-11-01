@@ -10,5 +10,7 @@ public class FoodItem {
 		this.price = price;
 		this.vegetarian = vegetarian;
 	}
-
+	void changeTypeDet(String category){
+		typeDet = category;
+	}
 }

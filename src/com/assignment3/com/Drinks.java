@@ -5,5 +5,6 @@ public class Drinks extends VegItem{
 	public Drinks(String DrinkName, String DrinkDescription, int DrinkPrice) {
 		super(DrinkName, DrinkPrice);
 		typeDet = "Drink";
+		this.DrinkDescription = DrinkDescription;
 	}
 }

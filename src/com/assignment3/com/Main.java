@@ -56,6 +56,61 @@ public class Main {
 		return registerInfo;
 	}
 
+	static void addNewItem(Admin admin){
+		Integer selected = inputTaker("Drinks", "General", "Other", "Previous Menu");
+		if (selected == null || selected == 4){ return;}
+		FoodItem item = null;
+		if (selected == 1){
+			System.out.println("Enter Details Of Drinks.");
+			System.out.print("Drink Name:\t");
+			String drinkName = kybrd.nextLine();
+			int drinkPrice;
+			while (true) {
+				System.out.print("Drink Price:\t");
+				try{
+					drinkPrice = kybrd.nextInt();
+				}
+				catch (InputMismatchException e){
+					System.out.println("Please enter a valid drink price.");
+					continue;
+				}
+				break;
+			}
+			System.out.print("Drink Description:\t");
+			String drinkDescription = kybrd.nextLine();
+			item = new Drinks(drinkName, drinkDescription, drinkPrice);
+		}else if (selected == 2 || selected == 3){
+			String category = "General";
+			if (selected == 3){
+				System.out.println("Enter The Food Category:");
+				category = kybrd.nextLine();
+			}
+			Integer option = inputTaker("Veg", "Non-Veg", "Previous Menu");
+			if (option == null || option == 3){ return;}
+			if (option == 1){
+				System.out.println("Enter Details Of Veg.");
+				System.out.print("Food Name:\t");
+				String foodName = kybrd.nextLine();
+				int foodPrice;
+				while (true) {
+					System.out.print("Food Price:\t");
+					try{
+						foodPrice = kybrd.nextInt();
+					}catch (InputMismatchException e){
+						System.out.println("Please enter a valid food price.");
+						continue;
+					}
+					break;
+				}
+				item = new VegItem(foodName, foodPrice);
+				if (selected == 3){
+					item.changeTypeDet(category);
+				}
+			}
+		}
+		admin.set.addNewItem(item);
+	}
+
 	static void adminManageMenu(Admin admin){
 		while (true){
 			Integer selectedOption;
@@ -65,6 +120,7 @@ public class Main {
 				continue;
 			}
 			if (selectedOption == 4){ break;}
+			if (selectedOption == 1) addNewItem(admin); break;
 		}
 	}
 	static void adminManageOrder(Admin admin){

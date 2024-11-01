@@ -17,10 +17,25 @@ public class Admin extends FoodOrderingSystem{   // I hate there is a single adm
 	void logOut(){
 		this.adminLogin = false;
 	}
-	protected class Setter{
-
+	protected class Setter extends FoodOrderingSystem.Setter{
+		void addNewItem(FoodItem item){
+			if (item == null) return;
+			if (foodMenuData.contains(item)){ return;}
+			foodMenuData.add(item);
+		}
+		void removeItem(FoodItem item){
+			if (!foodMenuData.contains(item)){ return;}
+			foodMenuData.remove(item);
+		}
+		void updateItem(FoodItem item, FoodItem newItem){
+			if (!foodMenuData.contains(item)){ addNewItem(newItem);}
+			else{
+				removeItem(item);
+				addNewItem(newItem);
+			}
+		}
 	}
-	protected class Getter{
+	protected class Getter extends FoodOrderingSystem.Getter{
 		String username(){
 			return LoginID;
 		}

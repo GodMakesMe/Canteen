@@ -8,7 +8,7 @@ public class FoodOrderingSystem {
 	private int customersIDNumber = 1;
 	private ArrayList<Admin> adminsData = null;
 	private ArrayList<Customer> customersData = null;
-	private ArrayList<FoodItem> foodMenuData = null;
+	protected ArrayList<FoodItem> foodMenuData = null;
 	public FoodOrderingSystem(String name) {
 		this.sysName = name;
 		this.adminsData = new ArrayList<>();
