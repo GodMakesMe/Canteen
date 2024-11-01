@@ -6,9 +6,9 @@ import java.util.Vector;
 public class FoodOrderingSystem {
 	private String sysName = null;
 	private int customersIDNumber = 1;
-	private ArrayList<Admin> adminsData = null;
-	private ArrayList<Customer> customersData = null;
-	protected ArrayList<FoodItem> foodMenuData = null;
+	private ArrayList<Admin> adminsData;
+	private ArrayList<Customer> customersData;
+	protected ArrayList<FoodItem> foodMenuData;
 	public FoodOrderingSystem(String name) {
 		this.sysName = name;
 		this.adminsData = new ArrayList<>();
@@ -25,6 +25,7 @@ public class FoodOrderingSystem {
 		this.adminsData = foodOrderingSystem.adminsData;
 		this.customersData = foodOrderingSystem.customersData;
 		this.foodMenuData = foodOrderingSystem.foodMenuData;
+		this.customersIDNumber = foodOrderingSystem.customersIDNumber;
 	}
 
 
