@@ -67,6 +67,6 @@ public class GenericFunctions {
 		printCart(order);
 		System.out.print("Order Id:\t" + order.getOrderId());
 		System.out.print("Order Status:\t");
-		System.out.println(order.delivered ? "Completed" : order.packed ? "Packed" : order.prepared ? "Prepared" : "Pending");
+		System.out.println(order.getStatus());
 	}
 }
