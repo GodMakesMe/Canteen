@@ -52,4 +52,10 @@ public class Order {
 	void removeItem(FoodItem item){
 		orderItems.forEach(pair1 -> {if (pair1.x.equals(item)) {orderItems.remove(pair1);}});
 	}
+	Integer getOrderId(){
+		return OrderID;
+	}
+	void setOrderId(Integer orderID){
+		OrderID = orderID;
+	}
 }

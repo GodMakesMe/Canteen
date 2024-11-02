@@ -6,6 +6,7 @@ import java.util.Vector;
 public class FoodOrderingSystem {
 	private String sysName = null;
 	private int customersIDNumber = 1;
+	private int orderNo = 1;
 	private ArrayList<Admin> adminsData = new ArrayList<>();
 	private ArrayList<Customer> customersData =  new ArrayList<>();
 	private ArrayList<FoodItem> foodMenuData = new ArrayList<>();
@@ -16,6 +17,7 @@ public class FoodOrderingSystem {
 	public FoodOrderingSystem() {
 
 	}
+	@SuppressWarnings("unused")
 	public FoodOrderingSystem(FoodOrderingSystem foodOrderingSystem) {       // "Engulfing itself" Snake biting its own tail
 		this.sysName = foodOrderingSystem.sysName;
 		this.adminsData = foodOrderingSystem.adminsData;
@@ -23,11 +25,13 @@ public class FoodOrderingSystem {
 		this.foodMenuData = foodOrderingSystem.foodMenuData;
 		this.customersIDNumber = foodOrderingSystem.customersIDNumber;
 		this.ordersData = foodOrderingSystem.ordersData;
+		this.orderNo = foodOrderingSystem.orderNo;
 	}
 
 
 
 	protected class Setter{
+		@SuppressWarnings("unused")
 		void setSysName(String name){ sysName = name; }
 		class AdminData{
 			void addAdmin(Admin admin){
@@ -47,6 +51,7 @@ public class FoodOrderingSystem {
 					}
 				}
 			}
+			@SuppressWarnings("unused")
 			void updateAdmin(Admin admin1, Admin admin2){
 				removeAdmin(admin1);
 				addAdmin(admin2);
@@ -72,16 +77,38 @@ public class FoodOrderingSystem {
 					}
 				}
 			}
+			@SuppressWarnings("unused")
 			void updateCustomer(Customer from, Customer to){
 				removeCustomer(from);
 				addCustomer(to);
 			}
 		}
 		final CustomerData customerData = new CustomerData();
+		class OrderData{
+			void addOrder(Order order){
+				if (ordersData.contains(order)){
+					order.setOrderId(orderNo++);
+					ordersData.add(order);
+				}
+			}
+		}
+		final OrderData orderData = new OrderData();
 	}
 	protected class Getter{
 		String getSysName(){ return sysName;}
+		protected class OrderData{
+			Order getOrder(Integer orderId){
+				for (Order i : ordersData){
+					if (i.getOrderId().equals(orderId)){
+						return i;
+					}
+				}
+				return null;
+			}
+		}
+		final OrderData orderData = new OrderData();
 		protected class AdminData{
+			@SuppressWarnings("unused")
 			ArrayList<Admin> getAdminData(){ return adminsData;}
 			Admin getAdminById(String UserId){
 				if (UserId == null || UserId.isEmpty()) return null;

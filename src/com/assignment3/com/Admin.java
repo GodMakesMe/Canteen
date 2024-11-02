@@ -52,6 +52,9 @@ public class Admin extends FoodOrderingSystem{   // I hate there is a single adm
 		boolean loginStatus(){
 			return adminLogin;
 		}
+		Order getOrderByID(Integer OrderID){
+			return instance.get.orderData.getOrder(OrderID);
+		}
 	}
 
 	Setter set = new Setter();

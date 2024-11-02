@@ -38,6 +38,10 @@ public class Customer extends FoodOrderingSystem{
 		customerLogin = false;
 	}
 
+	void newCart(){
+		cart = new Order(this);
+	}
+
 	protected class Setter{
 		void customerID(int customerID){
 			CustomerID = customerID;
@@ -61,7 +65,8 @@ public class Customer extends FoodOrderingSystem{
 			Password = Pass;
 		}
 		void placeOrder(){
-
+			instance.set.orderData.addOrder(cart);
+			newCart();
 		}
 	}
 	protected class Getter {
