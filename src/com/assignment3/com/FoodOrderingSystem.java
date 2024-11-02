@@ -27,6 +27,7 @@ public class FoodOrderingSystem {
 		this.customersIDNumber = foodOrderingSystem.customersIDNumber;
 		this.ordersData = foodOrderingSystem.ordersData;
 		this.orderNo = foodOrderingSystem.orderNo;
+		this.refundOrdersData = foodOrderingSystem.refundOrdersData;
 	}
 
 
