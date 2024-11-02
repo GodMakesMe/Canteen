@@ -69,6 +69,13 @@ public class Customer extends FoodOrderingSystem{
 			instance.set.orderData.addOrder(cart);
 			newCart();
 		}
+		void placeOrder(Order neworder){
+			if (neworder == null){
+				System.out.println("Order is null");
+				return;
+			}
+			instance.set.orderData.addOrder(neworder);
+		}
 	}
 	protected class Getter {
 		String username(){
@@ -80,7 +87,15 @@ public class Customer extends FoodOrderingSystem{
 		ArrayList<FoodItem> getFoodMenuData(){
 			return instance.get.getFoodMenuData();
 		}
-
+		ArrayList<Order> getPreviousOrderData(){ return previousOrders; }
+		Order specificPreviousOrder(Integer previousOrderID){
+			for (Order order : previousOrders) {
+				if (order.getOrderId().equals(previousOrderID)) {
+					return order;
+				}
+			}
+			return null;
+		}
 	}
 
 	Setter set = new Setter();

@@ -1,6 +1,5 @@
 package com.assignment3.com;
 
-import org.w3c.dom.ls.LSOutput;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -589,11 +588,39 @@ public class Main {
 	}
 	static void giveReview(Customer customer){
 		System.out.println("All Unreviewed Orders.");
-		customer.previousOrders.forEach(order -> { if (order.feedback == null) {genericFunctions.printWithSpacing("S.no.", 10, order.getOrderId(), 16, order.getStatus(), 17, order.getTotalPrice(), 14);}});
+		genericFunctions.printWithSpacing("S.no.", 10, "Order Id", 16, "Order Status", 17, "OrderTotalPrice", 14);
+		AtomicInteger a = new AtomicInteger(1);
+		customer.previousOrders.forEach(order -> { if (order.feedback == null) {genericFunctions.printWithSpacing(a.getAndIncrement(), 10, order.getOrderId(), 16, order.getStatus(), 17, order.getTotalPrice(), 14);}});
+		System.out.print("Enter the Order ID to give Feedback [0 to Skip]:\t");
+		int inp = 0;
+		try{
+			inp = kybrd.nextInt(); kybrd.nextLine();
+		}catch (Exception e){
+			kybrd.nextLine();
+			System.out.println("Invalid Input");
+			giveReview(customer);
+		}
+		if (inp == 0){
+			System.out.println("Going to Previous Menu");
+			return;
+		}
+		for (Order order : customer.previousOrders){
+			if (order.feedback != null && order.getOrderId().equals(inp)){
+				System.out.println("Feedback already given.");
+				return;
+			}
+			else if (order.getOrderId().equals(inp)){
+				System.out.print("Enter the Review:\t");
+				order.feedback = kybrd.nextLine();
+				break;
+			}
+		}
 	}
-
+	static void viewReviews(Customer customer){
+		System.out.println("All Reviewed Orders.");
+		customer.previousOrders.forEach(order -> { if (order.feedback != null) genericFunctions.printOrder(order);});
+	}
 	static void customerManageReviews(Customer customer){
-		pass();
 		while (true){
 			Integer selectedOption;
 			selectedOption = inputTaker("Give Review", "View Reviews", "Previous Menu");
@@ -602,11 +629,19 @@ public class Main {
 				continue;
 			}
 			if (selectedOption == 3){ break;}
-			if (selectedOption == 1){}
+			if (selectedOption == 1) giveReview(customer);
+			if (selectedOption == 2) viewReviews(customer);
 		}
 	}
 	static void customerPreviousOrders(Customer customer){
-		pass();
+		System.out.println("All Previous Orders.");
+		customer.previousOrders.forEach(order -> genericFunctions.printOrder(order));
+		Integer inp = inputTaker("Reorder", "Previous Order");
+		if (inp == null || inp == 2) return;
+		if (inp == 1){
+			System.out.print("Enter the Order ID to reorder:\t");
+			customer.set.placeOrder(customer.get.specificPreviousOrder(inp));
+		}
 	}
 
 	public static void customerOptions(FoodOrderingSystem mainSystem){
@@ -639,12 +674,12 @@ public class Main {
 		}
 		mainSystem.set.customerData.addCustomer(newCustomer);
 		while (true){
-			Integer selectedOption = inputTaker("Membership Status", "Browse Menu", "Manage Cart", "Previous Orders", "LogOut as Customer");
+			Integer selectedOption = inputTaker("Membership Status", "Browse Menu", "Manage Cart", "Previous Orders", "Give Reviews", "LogOut as Customer");
 			if (selectedOption == null){
 				System.out.println("Invalid Input!");
 				continue;
 			}
-			if (selectedOption == 5){
+			if (selectedOption == 6){
 				newCustomer.logOut();
 				break;
 			}
@@ -652,6 +687,7 @@ public class Main {
 			if (selectedOption == 2){ customerBrowseMenu(newCustomer);}
 			if (selectedOption == 3){ customerManageCart(newCustomer);}
 			if (selectedOption == 4){ customerPreviousOrders(newCustomer);}
+			if (selectedOption == 5){ customerManageReviews(newCustomer);}
 		}
 	}
 
