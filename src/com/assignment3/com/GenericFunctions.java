@@ -49,4 +49,11 @@ public class GenericFunctions {
 		printWithSpacing(s, i, nameOfFood, i1, category,  i2, veg, i3);
 		printWithSpacing(price, i4, s1, i5);
 	}
+
+	void printCart(Order Cart){
+
+	}
+	void printOrder(Order order){
+
+	}
 }

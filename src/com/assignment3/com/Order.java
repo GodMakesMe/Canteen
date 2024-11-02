@@ -31,7 +31,9 @@ class pair<Type0, Type1>{
 public class Order {
 	private Integer OrderID = null;
 	final private Customer RaisedBy;
-
+	boolean packed = false;
+	boolean delivered = false;
+	boolean prepared = false;
 	ArrayList<pair<FoodItem, Integer>> orderItems;
 	public Order(Customer raisedBy){
 		orderItems = new ArrayList<>();
