@@ -14,7 +14,7 @@ public class Admin extends FoodOrderingSystem{   // I hate there is a single adm
 		this.Password = "godmakesme";
 		this.adminLogin = false;
 	}
-
+	@SuppressWarnings("unused")
 	Admin(String LoginID, String Password){
 		super();
 		this.LoginID = LoginID;
@@ -35,6 +35,7 @@ public class Admin extends FoodOrderingSystem{   // I hate there is a single adm
 			if (!instance.foodMenuData.contains(item)){ return;}
 			instance.foodMenuData.remove(item);
 		}
+
 	}
 	protected class Getter{
 		String username(){
@@ -43,10 +44,14 @@ public class Admin extends FoodOrderingSystem{   // I hate there is a single adm
 		String password(){
 			return Password;
 		}
+		@SuppressWarnings("unused")
 		ArrayList<FoodItem> getFoodMenuData(){
 			return instance.get.getFoodMenuData();
 		}
-
+		@SuppressWarnings("unused")
+		boolean loginStatus(){
+			return adminLogin;
+		}
 	}
 
 	Setter set = new Setter();
