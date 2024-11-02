@@ -499,7 +499,9 @@ public class Main {
 		viewCartItems(customer);
 	}
 	static void viewCartTotal(Customer customer){
-
+		AtomicInteger total = new AtomicInteger(0);
+		customer.cart.orderItems.forEach(item -> total.getAndAdd(item.x.price*item.y));
+		System.out.println("Total Amount To Pay After GST:\t" + total.get()*118/100);
 	}
 	static void checkoutCart(Customer customer){
 
@@ -522,7 +524,7 @@ public class Main {
 		}
 	}
 
-	static void customerMangeReviews(Customer customer, Order order){
+	static void customerManageReviews(Customer customer, Order order){
 		pass();
 		while (true){
 			Integer selectedOption;

@@ -52,6 +52,7 @@ public class Customer extends FoodOrderingSystem{
 		void makeVIP(){
 			VIPStatus = true;
 		}
+		@SuppressWarnings("unused")
 		void removeVIP(){
 			VIPStatus = false;
 		}
