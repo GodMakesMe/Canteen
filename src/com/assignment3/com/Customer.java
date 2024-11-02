@@ -76,6 +76,10 @@ public class Customer extends FoodOrderingSystem{
 			}
 			instance.set.orderData.addOrder(neworder);
 		}
+		void initiateRefundForOrder(Order refundOrder){
+			instance.refundOrdersData.add(refundOrder);
+			refundOrder.initiateRefund();
+		}
 	}
 	protected class Getter {
 		String username(){
@@ -87,7 +91,6 @@ public class Customer extends FoodOrderingSystem{
 		ArrayList<FoodItem> getFoodMenuData(){
 			return instance.get.getFoodMenuData();
 		}
-		ArrayList<Order> getPreviousOrderData(){ return previousOrders; }
 		Order specificPreviousOrder(Integer previousOrderID){
 			for (Order order : previousOrders) {
 				if (order.getOrderId().equals(previousOrderID)) {
@@ -96,6 +99,7 @@ public class Customer extends FoodOrderingSystem{
 			}
 			return null;
 		}
+
 	}
 
 	Setter set = new Setter();

@@ -3,6 +3,7 @@ package com.assignment3.com;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Main {
 	static GenericFunctions genericFunctions = new GenericFunctions();
@@ -255,7 +256,48 @@ public class Main {
 		admin.get.getOrders().forEach(order -> {if (!order.getRaisedBy().VIPStatus && !order.delivered) {genericFunctions.printOrder(order);}});
 	}
 	static void manageOrderStatusAdmin(Admin admin){
-
+		viewOrdersAdmin(admin);
+		System.out.print("Select Order ID to change Status [0 to Skip]:\t");
+		int selectedOption;
+		try{
+			selectedOption = kybrd.nextInt(); kybrd.nextLine();
+		}catch (InputMismatchException e){
+			kybrd.nextLine();
+			System.out.println("Invalid input.");
+			return;
+		}
+		if (selectedOption == 0){
+			return;
+		}
+		AtomicReference<Boolean> flag = new AtomicReference<>(false);
+		Order orderSave = !admin.get.getOrderByID(selectedOption).delivered ? admin.get.getOrderByID(selectedOption) : null;
+		if (orderSave != null && flag.get()){
+			System.out.println("Current Order Status:\t" + orderSave.getStatus());
+			if (!orderSave.prepared){
+				Integer a = inputTaker("Prepared", "Still Preparing");
+				if (a == null || a == 2) return;
+				if (a == 1) orderSave.prepared = true;
+			}
+			if (!orderSave.packed){
+				Integer a = inputTaker("Out For Delivery", "Still Packing");
+				if (a == null || a == 2) return;
+				if (a == 1) orderSave.packed = true;
+			}
+			if (!orderSave.delivered){
+				Integer a = inputTaker("Delivered", "To Be Delivered");
+				if (a == null || a == 2) return;
+				if (a == 1) orderSave.delivered = true;
+			}
+		}
+	}
+	static void showSpecialRequestsAdmin(Admin admin){
+		for (Order order : admin.get.getOrders()) {
+			if (!order.delivered) {
+				System.out.println("Order ID: " + order.getOrderId());
+				System.out.println("Status: " + order.getStatus());
+				System.out.println("Special Request: " + order.getSpecialRequest());
+			}
+		}
 	}
 
 	static void adminManageOrder(Admin admin){
@@ -268,7 +310,26 @@ public class Main {
 			}
 			if (selectedOption == 4){ break;}
 			if (selectedOption == 1){ viewOrdersAdmin(admin);}
-			if (selectedOption == 2){ adminManageOrder(admin);}
+			if (selectedOption == 2){ manageOrderStatusAdmin(admin);}
+			if (selectedOption == 3){ showSpecialRequestsAdmin(admin);}
+		}
+	}
+	static void viewDailyReport(Admin admin){
+		Integer selectedOption = inputTaker("Total Sales", "Most Sold Item", "Previous Menu");
+		if (selectedOption == null || selectedOption == 3){return;}
+		if (selectedOption == 1){
+			AtomicInteger sales = new AtomicInteger(0);
+			admin.get.getOrders().forEach(order -> sales.getAndAdd(order.getTotalPrice()));
+			System.out.println("Total Sales: " + sales);
+		}if (selectedOption == 2){
+			FoodItem itemSave = null;
+			Integer itemMax = 0;
+			for (FoodItem item : admin.get.getFoodMenuData()) {
+				if (item.itemOrdered > itemMax) itemMax = item.itemOrdered; itemSave = item;
+			}
+			if (itemSave == null) return;
+			System.out.println("Most Sold Item:---");
+			genericFunctions.printItem(itemSave);
 		}
 	}
 
@@ -281,6 +342,7 @@ public class Main {
 				continue;
 			}
 			if (selectedOption == 2){ break;}
+			if (selectedOption == 1){ viewDailyReport(admin);}
 		}
 	}
 
@@ -579,6 +641,13 @@ public class Main {
 	static void checkoutCart(Customer customer){
 		viewCartItems(customer);
 		viewCartTotal(customer);
+		Integer p = inputTaker("Any Special Request", "Skip");
+		if (p == null){
+			System.out.println("Invalid Input, Skipping");
+		}else if (p == 1){
+			System.out.print("Enter the request:\t");
+			customer.cart.setSpecialRequest(kybrd.nextLine());
+		}
 		Integer k = inputTaker("Place Order", "Previous Menu");
 		if (k == null){
 			System.out.println("Invalid Input");
@@ -656,12 +725,41 @@ public class Main {
 	static void customerPreviousOrders(Customer customer){
 		System.out.println("All Previous Orders.");
 		customer.previousOrders.forEach(order -> genericFunctions.printOrder(order));
-		Integer inp = inputTaker("Reorder", "Previous Order");
-		if (inp == null || inp == 2) return;
+		Integer inp = inputTaker("Reorder", "Cancel Order", "Previous Menu");
+		if (inp == null || inp == 3) return;
 		if (inp == 1){
 			System.out.print("Enter the Order ID to reorder:\t");
 			customer.set.placeOrder(customer.get.specificPreviousOrder(inp));
+		}if (inp == 2){
+			boolean unpreparedOrder = false;
+			for (Order order : customer.previousOrders) {
+				if (!order.prepared){
+					unpreparedOrder = true;
+					genericFunctions.printOrder(order);
+				}
+			}
+			if (!unpreparedOrder){
+				System.out.println("Cannot Cancel At This Stage, No Unprepared Order");
+				return;
+			}
+			System.out.print("Enter the Order ID to Cancel:\t");
+			int can;
+			try{
+				can = kybrd.nextInt(); kybrd.nextLine();
+			}catch (Exception e){
+				kybrd.nextLine();
+				System.out.println("Invalid Input");
+				return;
+			}
+			for (Order order : customer.previousOrders) {
+				if (!order.prepared && order.getOrderId().equals(can)){
+					customer.set.initiateRefundForOrder(order);
+					System.out.println("Order Refund Requested");
+					return;
+				}
+			}
 		}
+
 	}
 
 	public static void customerOptions(FoodOrderingSystem mainSystem){

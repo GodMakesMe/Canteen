@@ -36,6 +36,8 @@ public class Order {
 	boolean delivered = false;
 	boolean prepared = false;
 	String feedback = null;
+	String specialRequest = null;
+	boolean initiateRefund = false;
 	ArrayList<pair<FoodItem, Integer>> orderItems;
 	public Order(Customer raisedBy){
 		orderItems = new ArrayList<>();
@@ -78,5 +80,14 @@ public class Order {
 	}
 	Customer getRaisedBy(){
 		return RaisedBy;
+	}
+	void setSpecialRequest(String specialRequest){
+		this.specialRequest = specialRequest;
+	}
+	String getSpecialRequest(){
+		return specialRequest;
+	}
+	void initiateRefund(){
+		initiateRefund = true;
 	}
 }

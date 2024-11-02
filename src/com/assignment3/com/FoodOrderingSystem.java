@@ -11,6 +11,7 @@ public class FoodOrderingSystem {
 	private ArrayList<Customer> customersData =  new ArrayList<>();
 	private ArrayList<FoodItem> foodMenuData = new ArrayList<>();
 	private ArrayList<Order> ordersData = new ArrayList<>();
+	protected ArrayList<Order> refundOrdersData = new ArrayList<>();
 	public FoodOrderingSystem(String name) {
 		this.sysName = name;
 	}
