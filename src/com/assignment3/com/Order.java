@@ -29,19 +29,23 @@ class pair<Type0, Type1>{
 }
 
 public class Order {
-	private Integer OrderID;
+	private Integer OrderID = null;
 	final private Customer RaisedBy;
+
 	ArrayList<pair<FoodItem, Integer>> orderItems;
 	public Order(Customer raisedBy){
 		orderItems = new ArrayList<>();
 		this.RaisedBy = raisedBy;
 	}
 
-	void addItem(FoodItem item){
-		orderItems.forEach(pair1 -> {if (pair1.x.equals(item)) {pair1.y++; }else{orderItems.add(new pair<>(item, 1));}});
+	void addItemByCount(FoodItem item, int count){
+		orderItems.forEach(pair1 -> {if (pair1.x.equals(item)) {pair1.y+=count; }else{orderItems.add(new pair<>(item, count));}});
 	}
-	void reduceItem(FoodItem item){
-		orderItems.forEach(pair1 -> {if (pair1.x.equals(item)) {if (pair1.y != 1) {pair1.y--;}else{removeItem(item);}}});
+	void reduceItemByCount(FoodItem item, int count){
+		orderItems.forEach(pair1 -> {if (pair1.x.equals(item)) {if (pair1.y > count) {pair1.y -= count;}else{removeItem(item);}}});
+	}
+	void decrementItem(FoodItem item){
+		reduceItemByCount(item, 1);
 	}
 	void removeItem(FoodItem item){
 		orderItems.forEach(pair1 -> {if (pair1.x.equals(item)) {orderItems.remove(pair1);}});

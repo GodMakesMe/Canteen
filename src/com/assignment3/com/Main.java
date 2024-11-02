@@ -10,20 +10,20 @@ public class Main {
 	}
 	static Scanner kybrd = new Scanner(System.in);
 	static Integer inputTaker(Vector<String> inputWise){
-		System.out.println("---------------------------------------------------------------------------------------------------");
+		System.out.println("-------------------------------------------------------------------------------------------------------");
 		short a = 1;
 		for (String i : inputWise){
 			System.out.println(a++ + ".\t" + i);
 		}
-//		System.out.println("---------------------------------------------------------------------------------------------------");
+//		System.out.println("-------------------------------------------------------------------------------------------------------");
 		int selectedOption;
 		try{
 			System.out.print("Select an option [1-" + inputWise.size() + "]:\t");
 			selectedOption = kybrd.nextInt(); kybrd.nextLine();
-			System.out.println("---------------------------------------------------------------------------------------------------");
+			System.out.println("-------------------------------------------------------------------------------------------------------");
 		}catch (InputMismatchException e){
 			System.out.println("Please enter a valid option! between 1-" + inputWise.size() + ".");
-			System.out.println("---------------------------------------------------------------------------------------------------");
+			System.out.println("-------------------------------------------------------------------------------------------------------");
 			kybrd.nextLine();
 			return null;
 		}
@@ -33,20 +33,20 @@ public class Main {
 		return selectedOption;
 	}
 	static Integer inputTaker(String... inputWise){
-		System.out.println("---------------------------------------------------------------------------------------------------");
+		System.out.println("-------------------------------------------------------------------------------------------------------");
 		short a = 1;
 		for (String i : inputWise){
 			System.out.println(a++ + ".\t" + i);
 		}
-//		System.out.println("---------------------------------------------------------------------------------------------------");
+//		System.out.println("-------------------------------------------------------------------------------------------------------");
 		int selectedOption;
 		try{
 			System.out.print("Select an option [1-" + inputWise.length + "]:\t");
 			selectedOption = kybrd.nextInt(); kybrd.nextLine();
-			System.out.println("---------------------------------------------------------------------------------------------------");
+			System.out.println("-------------------------------------------------------------------------------------------------------");
 		}catch (InputMismatchException e){
 			System.out.println("Please enter a valid option! between 1-" + inputWise.length + ".");
-			System.out.println("---------------------------------------------------------------------------------------------------");
+			System.out.println("-------------------------------------------------------------------------------------------------------");
 			kybrd.nextLine();
 			return null;
 		}
@@ -95,10 +95,10 @@ public class Main {
 
 	static void viewFoodItems(FoodOrderingSystem admin){
 		int a = 1;
-		genericFunctions.printWithSpacing("S.no.", 7, "Name Of Food", 35, "Category", 15, "Veg Or Non-Veg", 7,"Price", 10, "Item No.", 10);
+		genericFunctions.printWithSpacing("S.no.", 7, "Name Of Food", 35, "Category", 15, "Veg Or Non-Veg", 20,"Price", 10, "Item No.", 10);
 		System.out.println();
 		for (FoodItem i : admin.get.getFoodMenuData()){
-			genericFunctions.printWithSpacing(a++, 7, i.nameOfFood, 35, i.typeDet, 15, i.vegetarian, 7, i.price, 10, i.FoodID, 10);
+			genericFunctions.printWithSpacing(a++, 7, i.nameOfFood, 35, i.typeDet, 15, i.vegetarian ? "Veg" : "Non Veg", 20, i.price, 10, i.FoodID, 10);
 			System.out.println();
 		}
 	}
@@ -166,7 +166,9 @@ public class Main {
 				}
 				break;
 			}
+			System.out.println(category + " Description:\t");
 			item = new FoodItem(foodName, foodPrice, veg);
+			item.foodDescription = kybrd.nextLine();
 			if (selected == 3){
 				item.changeTypeDet(category);
 			}
@@ -393,10 +395,11 @@ public class Main {
 		String input = kybrd.nextLine();
 		customer.searchHistory.add(input);
 		a = 1;
-		genericFunctions.printWithSpacing("S.no.", 7, "Name Of Food", 35, "Category", 15, "Veg Or Non-Veg", 7,"Price", 10, "Item No.", 10);
+		genericFunctions.printWithSpacing("S.no.", 7, "Name Of Food", 35, "Category", 15, "Veg Or Non-Veg", 20,"Price", 10, "Item No.", 10);
+		System.out.println();
 		for (FoodItem i : customer.get.getFoodMenuData()){
-			if (i.nameOfFood.contains(input)){
-				genericFunctions.printWithSpacing(a++, 7, i.nameOfFood, 35, i.typeDet, 15, i.vegetarian, 7, i.price, 10, i.FoodID, 10);
+			if (i.nameOfFood.toLowerCase().contains(input)){
+				genericFunctions.printWithSpacing(a++, 7, i.nameOfFood, 35, i.typeDet, 15, i.vegetarian ? "Veg" : "Non Veg", 20, i.price, 10, i.FoodID, 10);
 				System.out.println();
 			}
 		}
@@ -404,23 +407,24 @@ public class Main {
 	}
 
 	static void filterByCategory(Customer customer){
+		AtomicInteger a = new AtomicInteger(1);
+		Integer internalInput = inputTaker("Veg", "Non Veg", "Any");
 		Vector<String> allCategories = new Vector<>();
-		customer.get.getFoodMenuData().forEach(item -> {if (!allCategories.contains(item.nameOfFood)){allCategories.add(item.nameOfFood);}});
+		customer.get.getFoodMenuData().forEach(item -> {if (!allCategories.contains(item.typeDet)){allCategories.add(item.typeDet);}});
+		allCategories.add("Skip");
 		allCategories.add("Go To Previous Menu");
 		Integer input = inputTaker(allCategories);
-		if (input == null || input == allCategories.size()){ return;}
+		if (internalInput == null)	internalInput = 3;
+		if (input == null) input = allCategories.size()-1;
+		boolean veg = internalInput == 1;
+		int input1 = input;
+		Integer internal = internalInput;
 		System.out.println("Category:\t" + allCategories.get(input-1));
-		Integer internalInput = inputTaker("Veg", "Non Veg", "Any");
+		if (input == allCategories.size()){ return;}
 		genericFunctions.printWithSpacing("S.no", 7, "Name Of Item", 35, "Price", 10, "Item No.", 10, "Veg Or Non-Veg", 30);
-		AtomicInteger a = new AtomicInteger(1);
-		if (internalInput == null || internalInput == 3){
-			customer.get.getFoodMenuData().forEach(item -> {if (item.typeDet.equals(allCategories.get(input-1))) genericFunctions.printWithSpacing(a.getAndIncrement(), 7, item.nameOfFood, 35, item.price, 9, item.FoodID, 9, item.vegetarian, 30); });
-		}else{
-			boolean veg = internalInput == 1;
-			customer.get.getFoodMenuData().forEach(item -> {if (item.typeDet.equals(allCategories.get(input-1)) && item.vegetarian == veg) genericFunctions.printWithSpacing(a.getAndIncrement(), 7, item.nameOfFood, 35, item.price, 9, item.FoodID, 9, item.vegetarian, 30); });
-		}
-
-
+		System.out.println();
+		customer.get.getFoodMenuData().forEach(item -> {if ((item.typeDet.equals(allCategories.get(input1-1)) || input1 == allCategories.size()-1) && (item.vegetarian == veg || internal == 3)){ genericFunctions.printWithSpacing(a.getAndIncrement(), 7, item.nameOfFood, 35, item.price, 9, item.FoodID, 9, item.vegetarian ? "Veg" : "Non Veg", 30); System.out.println();}});
+		System.out.println();
 	}
 
 	static void addToCart(Customer customer){
@@ -436,24 +440,37 @@ public class Main {
 		if (no == 0){
 			return;
 		}
-		boolean itemFound = false;
+		boolean itemFound = false; FoodItem temp = null;
 		for (FoodItem i : customer.get.getFoodMenuData()){
 			if (i.FoodID == no){
 				itemFound = true;
-				System.out.println("Item Added To Cart Successfully!");
-				customer.cart.addItem(i);
+				temp = i;
+				System.out.println("Item Details:--");
+				genericFunctions.printItem(i);
+				System.out.println();
 				break;
 			}
 		}
 		if (!itemFound){
 			System.out.println("No item found");
+		}else{
+			System.out.println("Enter the the quantity:\t");
+			int quantity = 1;
+			try{
+				quantity = kybrd.nextInt(); kybrd.nextLine();
+			}catch (Exception e){
+				kybrd.nextLine();
+				System.out.println("Invalid Input Adding single quantity");
+			}
+			customer.cart.addItemByCount(temp, quantity);
+			System.out.println("Item Added To Cart Successfully!");
 		}
 	}
 	static void sortedMenu(Customer customer){
-		Integer selectedOption = inputTaker("Sort By Latest Item", "Sort By Most Ordered", "Sort By Price", "Sort Alphabetically","Previous Menu");
+		Integer selectedOption = inputTaker("Sort By Latest Item", "Sort By Most Ordered", "Sort By Low To High Price", "Sort Alphabetically","Previous Menu");
 		if (selectedOption == null || selectedOption == 5){ return;}
-		if (selectedOption == 1) customer.get.getFoodMenuData().sort(FoodItem.BY_FOOD_ID);
-		if (selectedOption == 2) customer.get.getFoodMenuData().sort(FoodItem.BY_ITEM_ORDERED);
+		if (selectedOption == 1) customer.get.getFoodMenuData().sort(FoodItem.BY_FOOD_ID.reversed());
+		if (selectedOption == 2) customer.get.getFoodMenuData().sort(FoodItem.BY_ITEM_ORDERED.reversed());
 		if (selectedOption == 3) customer.get.getFoodMenuData().sort(FoodItem.BY_PRICE);
 		if (selectedOption == 4) customer.get.getFoodMenuData().sort(FoodItem.BY_NAME);
 		viewFoodItems(customer);
@@ -461,7 +478,6 @@ public class Main {
 	}
 
 	static void customerBrowseMenu(Customer customer){
-		pass();
 		while (true){
 			Integer selectedOption;
 			selectedOption = inputTaker("View All Items", "Search Item", "Filter By Category", "Sort", "Previous Menu");
@@ -471,26 +487,42 @@ public class Main {
 			}
 			if (selectedOption == 5){ break;}
 			if (selectedOption == 1) viewFoodItems(customer);
-			if (selectedOption == 2){ customerSearchItem(customer);}
+			if (selectedOption == 2) customerSearchItem(customer);
 			if (selectedOption == 3) filterByCategory(customer);
 			if (selectedOption == 4) sortedMenu(customer);
 		}
+	}
+	static void viewCartItems(Customer customer){
+
+	}
+	static void manageCartQuantity(Customer customer){
+
+	}
+	static void viewCartTotal(Customer customer){
+
+	}
+	static void checkoutCart(Customer customer){
+
 	}
 
 	static void customerManageCart(Customer customer){
 		pass();
 		while (true){
 			Integer selectedOption;
-			selectedOption = inputTaker("View Cart Items", "Add Item", "Manage Quantity", "View Amount", "Checkout", "Previous Menu");
+			selectedOption = inputTaker("View Cart Items", "Manage Quantity", "View Amount", "Checkout", "Previous Menu");
 			if (selectedOption == null){
 				System.out.println("Invalid Input");
 				continue;
 			}
-			if (selectedOption == 6){ break;}
+			if (selectedOption == 5) break;
+			if (selectedOption == 1) viewCartItems(customer);
+			if (selectedOption == 2) manageCartQuantity(customer);
+			if (selectedOption == 3) viewCartTotal(customer);
+			if (selectedOption == 4) checkoutCart(customer);
 		}
 	}
 
-	static void customerMangeReviews(Customer customer){
+	static void customerMangeReviews(Customer customer, Order order){
 		pass();
 		while (true){
 			Integer selectedOption;
@@ -501,6 +533,9 @@ public class Main {
 			}
 			if (selectedOption == 3){ break;}
 		}
+	}
+	static void customerPreviousOrders(Customer customer){
+		pass();
 	}
 
 	public static void customerOptions(FoodOrderingSystem mainSystem){
@@ -533,7 +568,7 @@ public class Main {
 		}
 		mainSystem.set.customerData.addCustomer(newCustomer);
 		while (true){
-			Integer selectedOption = inputTaker("Membership Status", "Browse Menu", "Manage Cart", "Manage Reviews", "LogOut as Customer");
+			Integer selectedOption = inputTaker("Membership Status", "Browse Menu", "Manage Cart", "Previous Orders", "LogOut as Customer");
 			if (selectedOption == null){
 				System.out.println("Invalid Input!");
 				continue;
@@ -545,7 +580,7 @@ public class Main {
 			if (selectedOption == 1){ customerManageMembership(newCustomer);}
 			if (selectedOption == 2){ customerBrowseMenu(newCustomer);}
 			if (selectedOption == 3){ customerManageCart(newCustomer);}
-			if (selectedOption == 4){ customerMangeReviews(newCustomer);}
+			if (selectedOption == 4){ customerPreviousOrders(newCustomer);}
 		}
 	}
 

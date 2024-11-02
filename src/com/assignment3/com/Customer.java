@@ -13,6 +13,8 @@ public class Customer extends FoodOrderingSystem{
 	boolean VIPStatus;
 	Order cart;
 	Vector<String> searchHistory = new Vector<>();
+	ArrayList<Order> previousOrders = new ArrayList<>();
+
 	public Customer(){
 		super();
 		this.customerLogin = false;
@@ -57,6 +59,9 @@ public class Customer extends FoodOrderingSystem{
 		void registerLogin(String Username, String Pass){
 			LoginID = Username;
 			Password = Pass;
+		}
+		void placeOrder(){
+
 		}
 	}
 	protected class Getter {

@@ -42,7 +42,7 @@ public class GenericFunctions {
 	@SuppressWarnings("all")
 	<T> void printWithSpacing(T s1, int i, T s2, int i1, T s3, int i2, T s4, int i3, T s5, int i4) {
 		printWithSpacing(s1, i, s2, i1, s3,  i2);
-		printWithSpacing(s4, i3, s4, i4);
+		printWithSpacing(s4, i3, s5, i4);
 	}
 	@SuppressWarnings("all")
 	<T> void printWithSpacing(T s, int i, T nameOfFood, int i1, T category, int i2, T veg, int i3, T price, int i4,  T s1, int i5) {

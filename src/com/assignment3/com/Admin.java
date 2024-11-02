@@ -27,13 +27,13 @@ public class Admin extends FoodOrderingSystem{   // I hate there is a single adm
 	protected class Setter{
 		void addNewItem(FoodItem item){
 			if (item == null) return;
-			if (instance.foodMenuData.contains(item)){ return;}
+			if (instance.get.getFoodMenuData().contains(item)){ return;}
 			item.FoodID = ItemNO++;
-			instance.foodMenuData.add(item);
+			instance.get.getFoodMenuData().add(item);
 		}
 		void removeItem(FoodItem item){
-			if (!instance.foodMenuData.contains(item)){ return;}
-			instance.foodMenuData.remove(item);
+			if (!instance.get.getFoodMenuData().contains(item)){ return;}
+			instance.get.getFoodMenuData().remove(item);
 		}
 
 	}

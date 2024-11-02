@@ -8,7 +8,8 @@ public class FoodOrderingSystem {
 	private int customersIDNumber = 1;
 	private ArrayList<Admin> adminsData = new ArrayList<>();
 	private ArrayList<Customer> customersData =  new ArrayList<>();
-	protected ArrayList<FoodItem> foodMenuData = new ArrayList<>();
+	private ArrayList<FoodItem> foodMenuData = new ArrayList<>();
+	private ArrayList<Order> ordersData = new ArrayList<>();
 	public FoodOrderingSystem(String name) {
 		this.sysName = name;
 	}
@@ -21,6 +22,7 @@ public class FoodOrderingSystem {
 		this.customersData = foodOrderingSystem.customersData;
 		this.foodMenuData = foodOrderingSystem.foodMenuData;
 		this.customersIDNumber = foodOrderingSystem.customersIDNumber;
+		this.ordersData = foodOrderingSystem.ordersData;
 	}
 
 
