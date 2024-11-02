@@ -34,6 +34,7 @@ public class Order {
 	boolean packed = false;
 	boolean delivered = false;
 	boolean prepared = false;
+	String feedback = null;
 	ArrayList<pair<FoodItem, Integer>> orderItems;
 	public Order(Customer raisedBy){
 		orderItems = new ArrayList<>();
@@ -57,5 +58,11 @@ public class Order {
 	}
 	void setOrderId(Integer orderID){
 		OrderID = orderID;
+	}
+	void setFeedback(String feedback){
+		this.feedback = feedback;
+	}
+	String getFeedback(){
+		return feedback;
 	}
 }

@@ -493,10 +493,10 @@ public class Main {
 		}
 	}
 	static void viewCartItems(Customer customer){
-
+		genericFunctions.printCart(customer.cart);
 	}
 	static void manageCartQuantity(Customer customer){
-
+		viewCartItems(customer);
 	}
 	static void viewCartTotal(Customer customer){
 
