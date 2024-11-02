@@ -2,6 +2,7 @@ package com.assignment3.com;
 import java.util.*;
 
 public class Main {
+	static GenericFunctions genericFunctions = new GenericFunctions();
 	static void pass(){
 		System.out.println("Facility under process.");
 	}
@@ -55,6 +56,13 @@ public class Main {
 		registerInfo.add(foodOrderingSystem.get.customerData.customerNumber());
 		return registerInfo;
 	}
+	static void viewFoodItems(Admin admin){
+		int a = 1;
+		genericFunctions.printWithSpacing("S.no.", 5, "Name Of Food", 35, "Category", 15, "Price", 10);
+		for (FoodItem i : admin.get.getFoodMenuData()){
+			genericFunctions.printWithSpacing(a++, 5, i.nameOfFood, 35, i.typeDet, 15, i.price, 10);
+		}
+	}
 
 	static void addNewItem(Admin admin){
 		Integer selected = inputTaker("Drinks", "General", "Other", "Previous Menu");
@@ -69,8 +77,10 @@ public class Main {
 				System.out.print("Drink Price:\t");
 				try{
 					drinkPrice = kybrd.nextInt();
+					kybrd.nextLine();
 				}
 				catch (InputMismatchException e){
+					kybrd.nextLine();
 					System.out.println("Please enter a valid drink price.");
 					continue;
 				}
@@ -78,7 +88,8 @@ public class Main {
 			}
 			System.out.print("Drink Description:\t");
 			String drinkDescription = kybrd.nextLine();
-			item = new Drinks(drinkName, drinkDescription, drinkPrice);
+			item = new FoodItem(drinkName, drinkPrice, true);
+			item.foodDescription = drinkDescription;
 		}else if (selected == 2 || selected == 3){
 			String category = "General";
 			if (selected == 3){
@@ -87,40 +98,78 @@ public class Main {
 			}
 			Integer option = inputTaker("Veg", "Non-Veg", "Previous Menu");
 			if (option == null || option == 3){ return;}
+			String foodName;
+			boolean veg = false;
 			if (option == 1){
-				System.out.println("Enter Details Of Veg.");
-				System.out.print("Food Name:\t");
-				String foodName = kybrd.nextLine();
-				int foodPrice;
-				while (true) {
-					System.out.print("Food Price:\t");
-					try{
-						foodPrice = kybrd.nextInt();
-					}catch (InputMismatchException e){
-						System.out.println("Please enter a valid food price.");
-						continue;
-					}
-					break;
+				System.out.println("Enter Details Of Veg Item.");
+				veg = true;
+			}if (option == 2){
+				System.out.println("Enter Details Of Non-Veg Item.");
+			}
+			System.out.print("Food Name:\t");
+			foodName = kybrd.nextLine();
+			int foodPrice;
+			while (true) {
+				System.out.print("Food Price:\t");
+				try{
+					foodPrice = kybrd.nextInt();
+					kybrd.nextLine();
+				}catch (InputMismatchException e){
+					kybrd.nextLine();
+					System.out.println("Please enter a valid food price.");
+					continue;
 				}
-				item = new VegItem(foodName, foodPrice);
-				if (selected == 3){
-					item.changeTypeDet(category);
-				}
+				break;
+			}
+			item = new FoodItem(foodName, foodPrice, veg);
+			if (selected == 3){
+				item.changeTypeDet(category);
 			}
 		}
 		admin.set.addNewItem(item);
 	}
 
+	static void updateItem(Admin admin){
+		viewFoodItems(admin);
+		System.out.print("Select S/no To Edit:\t");
+		int input;
+		try{
+			input = kybrd.nextInt();
+			kybrd.nextLine();
+		}catch (InputMismatchException e){
+			kybrd.nextLine();
+			System.out.println("Invalid input.");
+			return;
+		}
+		if (input < 1 || input > admin.get.getFoodMenuData().size()){
+			System.out.println("Invalid input.");
+			return;
+		}
+
+		Integer selectedOption = inputTaker("Change Item Name", "Change Item Category", "Change Price", "Previous Menu");
+		if (selectedOption == null || selectedOption == 4){ return;}
+		if (selectedOption == 1){
+			System.out.print("Enter New Name:");
+			admin.get.getFoodMenuData().get(input-1).nameOfFood = kybrd.nextLine();
+		}if (selectedOption == 2){
+			System.out.print("Enter New Category:");
+
+			admin.get.getFoodMenuData().get(input-2).typeDet = kybrd.nextLine();
+		}
+	}
+
 	static void adminManageMenu(Admin admin){
 		while (true){
 			Integer selectedOption;
-			selectedOption = inputTaker("Add New Item", "Update Item", "Remove Item", "Previous Menu");
+			selectedOption = inputTaker("View Items", "Add New Item", "Update Item", "Remove Item", "Previous Menu");
 			if (selectedOption == null){
 				System.out.println("Invalid Input");
 				continue;
 			}
 			if (selectedOption == 4){ break;}
-			if (selectedOption == 1) addNewItem(admin); break;
+			if (selectedOption == 1) viewFoodItems(admin);
+			if (selectedOption == 2) addNewItem(admin);
+			if (selectedOption == 3) updateItem(admin);
 		}
 	}
 	static void adminManageOrder(Admin admin){

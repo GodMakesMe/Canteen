@@ -5,6 +5,7 @@ public class FoodItem {
 	protected int price;
 	protected boolean vegetarian;
 	protected String typeDet = "General";
+	protected String foodDescription;
 	public FoodItem(String nameOfFood, int price, boolean vegetarian) {
 		this.nameOfFood = nameOfFood;
 		this.price = price;
