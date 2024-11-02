@@ -1,5 +1,7 @@
 package com.assignment3.com;
 
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -497,6 +499,67 @@ public class Main {
 	}
 	static void manageCartQuantity(Customer customer){
 		viewCartItems(customer);
+		System.out.println("Enter the S.no [0 to Skip]:\t");
+		int no;
+		try{
+			no = kybrd.nextInt(); kybrd.nextLine();
+		}catch (Exception e){
+			kybrd.nextLine();
+			System.out.println("Going to Previous Menu");
+			return;
+		}
+		if (no == 0){
+			System.out.println("Going to Previous Menu");
+			return;
+		}
+		Integer inp = inputTaker("Add Quantity", "Reduce Quantity", "Remove Item", "Previous Menu");
+		if (inp == null || inp == 4){
+			System.out.println("Going to Previous Menu");
+			return;
+		}
+		if (inp == 1) {
+			int amount;
+			try{
+				amount = kybrd.nextInt(); kybrd.nextLine();
+			}catch (Exception e){
+				kybrd.nextLine();
+				System.out.println("Invalid Quantity");
+				System.out.println("Incrementing single quantity");
+				customer.cart.incrementItem(customer.cart.orderItems.get(no).x);
+				return;
+			}
+			if (amount < 0){
+				System.out.println("Invalid Quantity");
+				System.out.println("Incrementing single quantity");
+				customer.cart.incrementItem(customer.cart.orderItems.get(no).x);
+				return;
+			}
+			customer.cart.addItemByCount(customer.cart.orderItems.get(no).x, amount);
+			System.out.println("Quantity Changed");
+		}else if (inp == 2){
+			int amount;
+			try{
+				amount = kybrd.nextInt(); kybrd.nextLine();
+			}catch (Exception e){
+				kybrd.nextLine();
+				System.out.println("Invalid Quantity");
+				System.out.println("Decrementing single quantity");
+				customer.cart.decrementItem(customer.cart.orderItems.get(no).x);
+				return;
+			}
+			if (amount < 0) {
+				System.out.println("Invalid Quantity");
+				System.out.println("Decrementing single quantity");
+				customer.cart.decrementItem(customer.cart.orderItems.get(no).x);
+				return;
+			}
+			customer.cart.reduceItemByCount(customer.cart.orderItems.get(no).x, amount);
+			System.out.println("Quantity Changed");
+		}
+		else if (inp == 3){
+			customer.cart.removeItem(customer.cart.orderItems.get(no).x);
+			System.out.println("Item Removed");
+		}
 	}
 	static void viewCartTotal(Customer customer){
 		AtomicInteger total = new AtomicInteger(0);
@@ -504,6 +567,7 @@ public class Main {
 		System.out.println("Total Amount To Pay After GST:\t" + total.get()*118/100);
 	}
 	static void checkoutCart(Customer customer){
+		viewCartItems(customer);
 
 	}
 
@@ -523,8 +587,12 @@ public class Main {
 			if (selectedOption == 4) checkoutCart(customer);
 		}
 	}
+	static void giveReview(Customer customer){
+		System.out.println("All Unreviewed Orders.");
+		customer.previousOrders.forEach(order -> { if (order.feedback == null) {genericFunctions.printWithSpacing("S.no.", 10, order.getOrderId(), 16, order.getStatus(), 17, order.getTotalPrice(), 14);}});
+	}
 
-	static void customerManageReviews(Customer customer, Order order){
+	static void customerManageReviews(Customer customer){
 		pass();
 		while (true){
 			Integer selectedOption;
@@ -534,6 +602,7 @@ public class Main {
 				continue;
 			}
 			if (selectedOption == 3){ break;}
+			if (selectedOption == 1){}
 		}
 	}
 	static void customerPreviousOrders(Customer customer){

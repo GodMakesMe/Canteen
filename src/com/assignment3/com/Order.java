@@ -1,5 +1,6 @@
 package com.assignment3.com;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 class pair<Type0, Type1>{
 	Type0 x;
@@ -40,7 +41,9 @@ public class Order {
 		orderItems = new ArrayList<>();
 		this.RaisedBy = raisedBy;
 	}
-
+	void incrementItem(FoodItem f){
+		addItemByCount(f, 1);
+	}
 	void addItemByCount(FoodItem item, int count){
 		orderItems.forEach(pair1 -> {if (pair1.x.equals(item)) {pair1.y+=count; }else{orderItems.add(new pair<>(item, count));}});
 	}
@@ -64,5 +67,13 @@ public class Order {
 	}
 	String getFeedback(){
 		return feedback;
+	}
+	String getStatus(){
+		return this.delivered ? "Completed" : this.packed ? "Packed" : this.prepared ? "Prepared" : "Pending";
+	}
+	Integer getTotalPrice(){
+		AtomicInteger a = new AtomicInteger(0);
+		orderItems.forEach(pair1 -> {a.addAndGet(pair1.y*pair1.x.price);});
+		return a.get();
 	}
 }
