@@ -1,5 +1,7 @@
 package com.assignment3.com;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class GenericFunctions {
 	<T> String toString(T a){
 		if (a instanceof String) return "" + a;
@@ -44,14 +46,17 @@ public class GenericFunctions {
 		printWithSpacing(s1, i, s2, i1, s3,  i2);
 		printWithSpacing(s4, i3, s5, i4);
 	}
-	@SuppressWarnings("all")
+//	@SuppressWarnings("all")
 	<T> void printWithSpacing(T s, int i, T nameOfFood, int i1, T category, int i2, T veg, int i3, T price, int i4,  T s1, int i5) {
 		printWithSpacing(s, i, nameOfFood, i1, category,  i2, veg, i3);
 		printWithSpacing(price, i4, s1, i5);
 	}
 
-	void printCart(Order Cart){
-
+	void printCart(Order cart){
+		System.out.println("Cart Items:---");
+		printWithSpacing("S.No.", 9, "Item No.", 15,"Food Name", 40,"Veg/NonVeg", 15, "Quantity", 11,"Price",20);
+		AtomicInteger ai = new AtomicInteger(1);
+		cart.orderItems.forEach(pr -> {printWithSpacing(ai.getAndIncrement(), 9, pr.x.FoodID, 15, pr.x.nameOfFood, 40, pr.x.vegetarian ? "Veg":"Non Veg", 15, pr.y, 11, pr.x.price, 20);});
 	}
 	void printOrder(Order order){
 
