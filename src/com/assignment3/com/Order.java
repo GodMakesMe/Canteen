@@ -73,7 +73,10 @@ public class Order {
 	}
 	Integer getTotalPrice(){
 		AtomicInteger a = new AtomicInteger(0);
-		orderItems.forEach(pair1 -> {a.addAndGet(pair1.y*pair1.x.price);});
+		orderItems.forEach(pair1 -> a.addAndGet(pair1.y*pair1.x.price));
 		return a.get();
+	}
+	Customer getRaisedBy(){
+		return RaisedBy;
 	}
 }

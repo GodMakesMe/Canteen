@@ -248,6 +248,15 @@ public class Main {
 			if (selectedOption == 4) removeItem(admin);
 		}
 	}
+	static void viewOrdersAdmin(Admin admin){
+		System.out.println("Orders By VIP Members");
+		admin.get.getOrders().forEach(order -> {if (order.getRaisedBy().VIPStatus && !order.delivered) {genericFunctions.printOrder(order);}});
+		System.out.println("Orders By Non-VIP Members");
+		admin.get.getOrders().forEach(order -> {if (!order.getRaisedBy().VIPStatus && !order.delivered) {genericFunctions.printOrder(order);}});
+	}
+	static void manageOrderStatusAdmin(Admin admin){
+
+	}
 
 	static void adminManageOrder(Admin admin){
 		while (true){
@@ -258,6 +267,8 @@ public class Main {
 				continue;
 			}
 			if (selectedOption == 4){ break;}
+			if (selectedOption == 1){ viewOrdersAdmin(admin);}
+			if (selectedOption == 2){ adminManageOrder(admin);}
 		}
 	}
 
@@ -620,7 +631,7 @@ public class Main {
 			}
 			else if (order.getOrderId().equals(inp)){
 				System.out.print("Enter the Review:\t");
-				order.feedback = kybrd.nextLine();
+				order.setFeedback(kybrd.nextLine());
 				break;
 			}
 		}

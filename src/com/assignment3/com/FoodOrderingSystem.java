@@ -97,7 +97,10 @@ public class FoodOrderingSystem {
 	protected class Getter{
 		String getSysName(){ return sysName;}
 		protected class OrderData{
-			Order getOrder(Integer orderId){
+			ArrayList<Order> getOrderData(){
+				return ordersData;
+			}
+			Order getOrderByID(Integer orderId){
 				for (Order i : ordersData){
 					if (i.getOrderId().equals(orderId)){
 						return i;

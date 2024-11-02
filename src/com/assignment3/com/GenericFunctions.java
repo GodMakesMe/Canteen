@@ -69,7 +69,7 @@ public class GenericFunctions {
 		System.out.print("Order Status:\t");
 		System.out.println(order.getStatus());
 		if (!order.feedback.isEmpty()){
-			System.out.println("Feedback:\t" + order.feedback);
+			System.out.println("Feedback:\t" + order.getFeedback());
 		}
 	}
 }
