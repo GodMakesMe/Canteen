@@ -567,7 +567,16 @@ public class Main {
 	}
 	static void checkoutCart(Customer customer){
 		viewCartItems(customer);
-
+		viewCartTotal(customer);
+		Integer k = inputTaker("Place Order", "Previous Menu");
+		if (k == null){
+			System.out.println("Invalid Input");
+			return;
+		}if (k == 2) return;
+		if (k == 1){
+			System.out.println("Payment Successful");
+			customer.set.placeOrder();
+		}
 	}
 
 	static void customerManageCart(Customer customer){
