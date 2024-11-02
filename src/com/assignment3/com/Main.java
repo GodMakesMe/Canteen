@@ -274,6 +274,12 @@ public class Main {
 		if (orderSave != null && flag.get()){
 			System.out.println("Current Order Status:\t" + orderSave.getStatus());
 			if (!orderSave.prepared){
+				if (orderSave.initiateRefund){
+					System.out.println("Refund Initiated as Not Prepared");
+					admin.instance.refundOrdersData.remove(orderSave);
+					admin.instance.get.orderData.getOrderData().remove(orderSave);
+					return;
+				}
 				Integer a = inputTaker("Prepared", "Still Preparing");
 				if (a == null || a == 2) return;
 				if (a == 1) orderSave.prepared = true;
