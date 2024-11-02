@@ -31,8 +31,6 @@ public class FoodOrderingSystem {
 
 	}
 
-
-
 	protected class Setter{
 		@SuppressWarnings("unused")
 		void setSysName(String name){ sysName = name; }
