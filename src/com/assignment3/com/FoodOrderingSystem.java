@@ -6,19 +6,14 @@ import java.util.Vector;
 public class FoodOrderingSystem {
 	private String sysName = null;
 	private int customersIDNumber = 1;
-	private ArrayList<Admin> adminsData;
-	private ArrayList<Customer> customersData;
-	protected ArrayList<FoodItem> foodMenuData;
+	private ArrayList<Admin> adminsData = new ArrayList<>();
+	private ArrayList<Customer> customersData =  new ArrayList<>();
+	protected ArrayList<FoodItem> foodMenuData = new ArrayList<>();
 	public FoodOrderingSystem(String name) {
 		this.sysName = name;
-		this.adminsData = new ArrayList<>();
-		this.customersData = new ArrayList<>();
-		this.foodMenuData = new ArrayList<>();
 	}
 	public FoodOrderingSystem() {
-		this.adminsData = new ArrayList<>();
-		this.customersData = new ArrayList<>();
-		this.foodMenuData = new ArrayList<>();
+
 	}
 	public FoodOrderingSystem(FoodOrderingSystem foodOrderingSystem) {       // "Engulfing itself" Snake biting its own tail
 		this.sysName = foodOrderingSystem.sysName;
@@ -39,6 +34,7 @@ public class FoodOrderingSystem {
 						return;
 					}
 				}
+				admin.instance = FoodOrderingSystem.this;
 				adminsData.add(admin);
 			}
 			void removeAdmin(Admin admin){
@@ -62,6 +58,7 @@ public class FoodOrderingSystem {
 						return;
 					}
 				}
+				customer.instance = FoodOrderingSystem.this;
 				customersData.add(customer);
 				customersIDNumber++;
 			}

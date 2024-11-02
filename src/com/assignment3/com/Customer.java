@@ -1,6 +1,10 @@
 package com.assignment3.com;
 
+import java.util.ArrayList;
+import java.util.Vector;
+
 public class Customer extends FoodOrderingSystem{
+	FoodOrderingSystem instance;
 	boolean customerLogin;
 	String CustomerName;
 	Integer CustomerID;
@@ -8,7 +12,9 @@ public class Customer extends FoodOrderingSystem{
 	String Password;
 	boolean VIPStatus;
 	Order cart;
+	Vector<String> searchHistory = new Vector<>();
 	public Customer(){
+		super();
 		this.customerLogin = false;
 		this.CustomerName = null;
 		this.CustomerID = null;
@@ -18,6 +24,7 @@ public class Customer extends FoodOrderingSystem{
 		cart = new Order(this);
 	}
 	Customer(String LoginID, String Password){
+		super();
 		this.LoginID = LoginID;
 		this.Password = Password;
 		VIPStatus = false;
@@ -52,13 +59,17 @@ public class Customer extends FoodOrderingSystem{
 			Password = Pass;
 		}
 	}
-	protected class Getter{
+	protected class Getter {
 		String username(){
 			return LoginID;
 		}
 		String password(){
 			return Password;
 		}
+		ArrayList<FoodItem> getFoodMenuData(){
+			return instance.get.getFoodMenuData();
+		}
+
 	}
 
 	Setter set = new Setter();

@@ -1,5 +1,7 @@
 package com.assignment3.com;
+
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
 	static GenericFunctions genericFunctions = new GenericFunctions();
@@ -7,6 +9,29 @@ public class Main {
 		System.out.println("Facility under process.");
 	}
 	static Scanner kybrd = new Scanner(System.in);
+	static Integer inputTaker(Vector<String> inputWise){
+		System.out.println("---------------------------------------------------------------------------------------------------");
+		short a = 1;
+		for (String i : inputWise){
+			System.out.println(a++ + ".\t" + i);
+		}
+//		System.out.println("---------------------------------------------------------------------------------------------------");
+		int selectedOption;
+		try{
+			System.out.print("Select an option [1-" + inputWise.size() + "]:\t");
+			selectedOption = kybrd.nextInt(); kybrd.nextLine();
+			System.out.println("---------------------------------------------------------------------------------------------------");
+		}catch (InputMismatchException e){
+			System.out.println("Please enter a valid option! between 1-" + inputWise.size() + ".");
+			System.out.println("---------------------------------------------------------------------------------------------------");
+			kybrd.nextLine();
+			return null;
+		}
+		if (selectedOption < 1 || selectedOption > inputWise.size()){
+			return null;
+		}
+		return selectedOption;
+	}
 	static Integer inputTaker(String... inputWise){
 		System.out.println("---------------------------------------------------------------------------------------------------");
 		short a = 1;
@@ -42,6 +67,7 @@ public class Main {
 		loginInfo.add(kybrd.nextLine());
 		return loginInfo;
 	}
+
 	static Vector<Object> registerPopup(FoodOrderingSystem foodOrderingSystem){
 		System.out.print("""
 				Signup:-------------------------------------------------------------------------------------------------
@@ -49,6 +75,12 @@ public class Main {
 		Vector<Object> registerInfo = new Vector<>();
 		System.out.print("\tUsername:\t");
 		registerInfo.add(kybrd.nextLine());
+		for (Customer i : foodOrderingSystem.get.customerData.getCustomerData()){
+			if (i.LoginID.equals(registerInfo.get(0))){
+				System.out.println("Username Already Exists");
+				return registerPopup(foodOrderingSystem);
+			}
+		}
 		System.out.print("\tPassword:\t");
 		registerInfo.add(kybrd.nextLine());
 		System.out.print("\tName Of User:\t");
@@ -56,12 +88,24 @@ public class Main {
 		registerInfo.add(foodOrderingSystem.get.customerData.customerNumber());
 		return registerInfo;
 	}
+
 	static void viewFoodItems(Admin admin){
+		viewFoodItems(admin.instance);
+	}
+
+	static void viewFoodItems(FoodOrderingSystem admin){
 		int a = 1;
-		genericFunctions.printWithSpacing("S.no.", 5, "Name Of Food", 35, "Category", 15, "Price", 10);
+		genericFunctions.printWithSpacing("S.no.", 7, "Name Of Food", 35, "Category", 15, "Veg Or Non-Veg", 7,"Price", 10, "Item No.", 10);
+		System.out.println();
 		for (FoodItem i : admin.get.getFoodMenuData()){
-			genericFunctions.printWithSpacing(a++, 5, i.nameOfFood, 35, i.typeDet, 15, i.price, 10);
+			genericFunctions.printWithSpacing(a++, 7, i.nameOfFood, 35, i.typeDet, 15, i.vegetarian, 7, i.price, 10, i.FoodID, 10);
+			System.out.println();
 		}
+	}
+
+	static void viewFoodItems(Customer customer){
+		viewFoodItems(customer.instance);
+		addToCart(customer);
 	}
 
 	static void addNewItem(Admin admin){
@@ -89,11 +133,12 @@ public class Main {
 			System.out.print("Drink Description:\t");
 			String drinkDescription = kybrd.nextLine();
 			item = new FoodItem(drinkName, drinkPrice, true);
+			item.typeDet = "Drink";
 			item.foodDescription = drinkDescription;
 		}else if (selected == 2 || selected == 3){
 			String category = "General";
 			if (selected == 3){
-				System.out.println("Enter The Food Category:");
+				System.out.println("Enter The Food Category:\t");
 				category = kybrd.nextLine();
 			}
 			Integer option = inputTaker("Veg", "Non-Veg", "Previous Menu");
@@ -127,9 +172,10 @@ public class Main {
 			}
 		}
 		admin.set.addNewItem(item);
+		System.out.println("Item Added Successfully.");
 	}
 
-	static void updateItem(Admin admin){
+	static FoodItem getItem(Admin admin){
 		viewFoodItems(admin);
 		System.out.print("Select S/no To Edit:\t");
 		int input;
@@ -139,23 +185,49 @@ public class Main {
 		}catch (InputMismatchException e){
 			kybrd.nextLine();
 			System.out.println("Invalid input.");
-			return;
+			return null;
 		}
-		if (input < 1 || input > admin.get.getFoodMenuData().size()){
+		if (input < 1 || input > admin.instance.get.getFoodMenuData().size()){
 			System.out.println("Invalid input.");
-			return;
+			return null;
 		}
+		return admin.instance.get.getFoodMenuData().get(input-1);
+	}
 
-		Integer selectedOption = inputTaker("Change Item Name", "Change Item Category", "Change Price", "Previous Menu");
-		if (selectedOption == null || selectedOption == 4){ return;}
+	static void updateItem(Admin admin){
+		FoodItem item = getItem(admin);
+		if (item == null){ return;}
+		genericFunctions.printItem(item);
+		Integer selectedOption = inputTaker("Change Item Name", "Change Item Category", "Change Price", "Change Description", "Previous Menu");
+		if (selectedOption == null || selectedOption == 5){ return;}
 		if (selectedOption == 1){
-			System.out.print("Enter New Name:");
-			admin.get.getFoodMenuData().get(input-1).nameOfFood = kybrd.nextLine();
+			System.out.println("Enter New Name:\t");
+			item.nameOfFood = kybrd.nextLine();
 		}if (selectedOption == 2){
-			System.out.print("Enter New Category:");
-
-			admin.get.getFoodMenuData().get(input-2).typeDet = kybrd.nextLine();
+			System.out.print("Enter New Category:\t");
+			item.typeDet = kybrd.nextLine();
+		}if (selectedOption == 3){
+			System.out.print("Enter New Price:\t");
+			try{
+				item.price = kybrd.nextInt();
+				kybrd.nextLine();
+			}catch (InputMismatchException e){
+				kybrd.nextLine();
+				System.out.println("Invalid input.");
+				return;
+			}
+		}if (selectedOption == 4){
+			System.out.print("Enter New Description:\t");
+			item.foodDescription = kybrd.nextLine();
 		}
+		System.out.println("Details Changed Successfully.");
+	}
+
+	static void removeItem(Admin admin){
+		FoodItem item = getItem(admin);
+		if (item == null){ return;}
+		admin.set.removeItem(item);
+		System.out.println("Item Removed Successfully.");
 	}
 
 	static void adminManageMenu(Admin admin){
@@ -166,12 +238,14 @@ public class Main {
 				System.out.println("Invalid Input");
 				continue;
 			}
-			if (selectedOption == 4){ break;}
+			if (selectedOption == 5){ break;}
 			if (selectedOption == 1) viewFoodItems(admin);
 			if (selectedOption == 2) addNewItem(admin);
 			if (selectedOption == 3) updateItem(admin);
+			if (selectedOption == 4) removeItem(admin);
 		}
 	}
+
 	static void adminManageOrder(Admin admin){
 		while (true){
 			Integer selectedOption;
@@ -183,6 +257,7 @@ public class Main {
 			if (selectedOption == 4){ break;}
 		}
 	}
+
 	static void adminManageRecords(Admin admin){
 		while (true){
 			Integer selectedOption;
@@ -219,6 +294,7 @@ public class Main {
 		}
 		pass();
 	}
+
 	@SuppressWarnings("all")    // Incorrect Warnings Were There
 	static void showMembershipStatus(Customer customer){
 		if (customer.VIPStatus && customer.customerLogin){
@@ -246,10 +322,10 @@ public class Main {
 				if (option == 2){ break;}
 				if (option == 1) {
 					Vector<Object> a = registerPopup(customer);
-					customer.set.registerLogin((String) a.get(0), (String) a.get(1));
-					customer.set.customerName((String) a.get(2));
+					customer.set.registerLogin(genericFunctions.toString(a.get(0)), genericFunctions.toString(a.get(1)));
+					customer.set.customerName(genericFunctions.toString(a.get(2)));
 					customer.set.customerID((int) a.get(3));
-					customer.set.initiateLogin((String) a.get(0), (String) a.get(1));
+					customer.set.initiateLogin(genericFunctions.toString(a.get(0)), genericFunctions.toString(a.get(1)));
 					System.out.println("User Account Created Successfully!");
 					break;
 				}
@@ -287,7 +363,6 @@ public class Main {
 		}else{
 			System.out.println("You are already VIP... Enjoy Seamless Services");
 		}
-
 	}
 
 	static void customerManageMembership(Customer customer){
@@ -303,18 +378,105 @@ public class Main {
 			if (selectedOption == 2){ changeMembershipStatus(customer);}
 		}
 	}
+
+	static void customerSearchItem(Customer customer){
+		System.out.println("Last 5 Search History:-\t");
+		int a = 1;
+		for (int i = customer.searchHistory.size() < 5 ? 0 : customer.searchHistory.size() - 5; i < customer.searchHistory.size(); i++){
+			System.out.println(a++ + ".\t" + customer.searchHistory.get(i));
+		}
+		if (customer.searchHistory.isEmpty()){
+			System.out.println("No Search History");
+		}
+
+		System.out.print("\nSearch Input:\t");
+		String input = kybrd.nextLine();
+		customer.searchHistory.add(input);
+		a = 1;
+		genericFunctions.printWithSpacing("S.no.", 7, "Name Of Food", 35, "Category", 15, "Veg Or Non-Veg", 7,"Price", 10, "Item No.", 10);
+		for (FoodItem i : customer.get.getFoodMenuData()){
+			if (i.nameOfFood.contains(input)){
+				genericFunctions.printWithSpacing(a++, 7, i.nameOfFood, 35, i.typeDet, 15, i.vegetarian, 7, i.price, 10, i.FoodID, 10);
+				System.out.println();
+			}
+		}
+		addToCart(customer);
+	}
+
+	static void filterByCategory(Customer customer){
+		Vector<String> allCategories = new Vector<>();
+		customer.get.getFoodMenuData().forEach(item -> {if (!allCategories.contains(item.nameOfFood)){allCategories.add(item.nameOfFood);}});
+		allCategories.add("Go To Previous Menu");
+		Integer input = inputTaker(allCategories);
+		if (input == null || input == allCategories.size()){ return;}
+		System.out.println("Category:\t" + allCategories.get(input-1));
+		Integer internalInput = inputTaker("Veg", "Non Veg", "Any");
+		genericFunctions.printWithSpacing("S.no", 7, "Name Of Item", 35, "Price", 10, "Item No.", 10, "Veg Or Non-Veg", 30);
+		AtomicInteger a = new AtomicInteger(1);
+		if (internalInput == null || internalInput == 3){
+			customer.get.getFoodMenuData().forEach(item -> {if (item.typeDet.equals(allCategories.get(input-1))) genericFunctions.printWithSpacing(a.getAndIncrement(), 7, item.nameOfFood, 35, item.price, 9, item.FoodID, 9, item.vegetarian, 30); });
+		}else{
+			boolean veg = internalInput == 1;
+			customer.get.getFoodMenuData().forEach(item -> {if (item.typeDet.equals(allCategories.get(input-1)) && item.vegetarian == veg) genericFunctions.printWithSpacing(a.getAndIncrement(), 7, item.nameOfFood, 35, item.price, 9, item.FoodID, 9, item.vegetarian, 30); });
+		}
+
+
+	}
+
+	static void addToCart(Customer customer){
+		System.out.print("Select Item To Add To Cart By Item no. [0 to Skip]:\t");
+		int no = 0;
+		try {
+			no = kybrd.nextInt();
+			kybrd.nextLine();
+		}catch(Exception e){
+			kybrd.nextLine();
+			System.out.println("Invalid Input");
+		}
+		if (no == 0){
+			return;
+		}
+		boolean itemFound = false;
+		for (FoodItem i : customer.get.getFoodMenuData()){
+			if (i.FoodID == no){
+				itemFound = true;
+				System.out.println("Item Added To Cart Successfully!");
+				customer.cart.addItem(i);
+				break;
+			}
+		}
+		if (!itemFound){
+			System.out.println("No item found");
+		}
+	}
+	static void sortedMenu(Customer customer){
+		Integer selectedOption = inputTaker("Sort By Latest Item", "Sort By Most Ordered", "Sort By Price", "Sort Alphabetically","Previous Menu");
+		if (selectedOption == null || selectedOption == 5){ return;}
+		if (selectedOption == 1) customer.get.getFoodMenuData().sort(FoodItem.BY_FOOD_ID);
+		if (selectedOption == 2) customer.get.getFoodMenuData().sort(FoodItem.BY_ITEM_ORDERED);
+		if (selectedOption == 3) customer.get.getFoodMenuData().sort(FoodItem.BY_PRICE);
+		if (selectedOption == 4) customer.get.getFoodMenuData().sort(FoodItem.BY_NAME);
+		viewFoodItems(customer);
+		customer.get.getFoodMenuData().sort(FoodItem.BY_FOOD_ID);
+	}
+
 	static void customerBrowseMenu(Customer customer){
 		pass();
 		while (true){
 			Integer selectedOption;
-			selectedOption = inputTaker("View All Items", "Search Item", "Filter By Category", "Sort By Price", "Previous Menu");
+			selectedOption = inputTaker("View All Items", "Search Item", "Filter By Category", "Sort", "Previous Menu");
 			if (selectedOption == null){
 				System.out.println("Invalid Input");
 				continue;
 			}
 			if (selectedOption == 5){ break;}
+			if (selectedOption == 1) viewFoodItems(customer);
+			if (selectedOption == 2){ customerSearchItem(customer);}
+			if (selectedOption == 3) filterByCategory(customer);
+			if (selectedOption == 4) sortedMenu(customer);
 		}
 	}
+
 	static void customerManageCart(Customer customer){
 		pass();
 		while (true){
@@ -327,6 +489,7 @@ public class Main {
 			if (selectedOption == 6){ break;}
 		}
 	}
+
 	static void customerMangeReviews(Customer customer){
 		pass();
 		while (true){
@@ -359,8 +522,8 @@ public class Main {
 			}
 		}else if (loginOption == 2){
 			Vector<Object> userInput = registerPopup(mainSystem);
-			newCustomer = new Customer((String) userInput.get(0), (String) userInput.get(1));
-			newCustomer.set.customerName((String) userInput.get(2));
+			newCustomer = new Customer(genericFunctions.toString(userInput.get(0)), genericFunctions.toString(userInput.get(1)));
+			newCustomer.set.customerName(genericFunctions.toString(userInput.get(2)));
 			newCustomer.set.customerID((int) userInput.get(3));
 			newCustomer.customerLogin = true;
 			System.out.println("Registration and Login Successful!");
