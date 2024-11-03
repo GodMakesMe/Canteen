@@ -269,9 +269,8 @@ public class Main {
 		if (selectedOption == 0){
 			return;
 		}
-		AtomicReference<Boolean> flag = new AtomicReference<>(false);
 		Order orderSave = !admin.get.getOrderByID(selectedOption).delivered ? admin.get.getOrderByID(selectedOption) : null;
-		if (orderSave != null && flag.get()){
+		if (orderSave != null){
 			System.out.println("Current Order Status:\t" + orderSave.getStatus());
 			if (!orderSave.prepared){
 				if (orderSave.initiateRefund){
