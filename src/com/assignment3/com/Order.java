@@ -52,6 +52,7 @@ public class Order {
 		feedback = order.feedback;
 		specialRequest = order.specialRequest;
 		initiateRefund = order.initiateRefund;
+		this.OrderID = order.OrderID;
 	}
 	void incrementItem(FoodItem f){
 		addItemByCount(f, 1);
