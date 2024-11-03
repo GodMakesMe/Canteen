@@ -55,9 +55,11 @@ public class GenericFunctions {
 	void printCart(Order cart){
 		System.out.println("Cart Items:---");
 		printWithSpacing("S.No.", 9, "Item No.", 15,"Food Name", 40,"Veg/NonVeg", 15, "Quantity", 11,"Price",5);
+		System.out.println();
 		AtomicInteger ai = new AtomicInteger(1);
 		AtomicInteger total = new AtomicInteger(0);
 		cart.orderItems.forEach(pr -> {total.getAndAdd(pr.y*pr.x.price); printWithSpacing(ai.getAndIncrement(), 9, pr.x.FoodID, 15, pr.x.nameOfFood, 40, pr.x.vegetarian ? "Veg":"Non Veg", 15, pr.y, 11, pr.x.price, 5); System.out.println();});
+		System.out.println();
 		print("--------------------------------------------------------------------------------", "\n");
 		System.out.print("Total Price:\t");
 		System.out.println(total.get());

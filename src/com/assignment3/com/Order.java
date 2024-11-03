@@ -1,5 +1,6 @@
 package com.assignment3.com;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 class pair<Type0, Type1>{
@@ -28,7 +29,6 @@ class pair<Type0, Type1>{
 		return x.equals(pair.x) && y.equals(pair.y);
 	}
 }
-
 public class Order {
 	private Integer OrderID = null;
 	final private Customer RaisedBy;
@@ -47,16 +47,43 @@ public class Order {
 		addItemByCount(f, 1);
 	}
 	void addItemByCount(FoodItem item, int count){
-		orderItems.forEach(pair1 -> {if (pair1.x.equals(item)) {pair1.y+=count; }else{orderItems.add(new pair<>(item, count));}});
+		AtomicBoolean found = new AtomicBoolean(false);
+		orderItems.forEach(pair1 -> {
+			if (pair1.x.equals(item)) {
+				pair1.y+=count; found.set(true);
+				return;
+			}
+		});
+		if (!found.get()){
+			orderItems.add(new pair<>(item, count));
+		}
 	}
 	void reduceItemByCount(FoodItem item, int count){
-		orderItems.forEach(pair1 -> {if (pair1.x.equals(item)) {if (pair1.y > count) {pair1.y -= count;}else{removeItem(item);}}});
+		for (pair<FoodItem, Integer> pair1 : orderItems) {
+			if (pair1.x.equals(item)) {
+				if (pair1.y > count) {
+					pair1.y -= count;
+				} else {
+					removeItem(item);
+					break;
+				}
+			}
+		}
 	}
 	void decrementItem(FoodItem item){
 		reduceItemByCount(item, 1);
 	}
 	void removeItem(FoodItem item){
-		orderItems.forEach(pair1 -> {if (pair1.x.equals(item)) {orderItems.remove(pair1);}});
+		pair<FoodItem, Integer> savePair = null;
+		for (pair<FoodItem, Integer> pair1 : orderItems) {
+			if (pair1.x.equals(item)) {
+				savePair = pair1;
+				break;
+			}
+		}
+		if (savePair != null){
+			orderItems.remove(savePair);
+		}
 	}
 	Integer getOrderId(){
 		return OrderID;

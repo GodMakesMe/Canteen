@@ -503,8 +503,9 @@ public class Main {
 		if (input == allCategories.size()){ return;}
 		genericFunctions.printWithSpacing("S.no", 7, "Name Of Item", 35, "Price", 10, "Item No.", 10, "Veg Or Non-Veg", 30);
 		System.out.println();
-		customer.get.getFoodMenuData().forEach(item -> {if ((item.typeDet.equals(allCategories.get(input1-1)) || input1 == allCategories.size()-1) && (item.vegetarian == veg || internal == 3)){ genericFunctions.printWithSpacing(a.getAndIncrement(), 7, item.nameOfFood, 35, item.price, 9, item.FoodID, 9, item.vegetarian ? "Veg" : "Non Veg", 30); System.out.println();}});
+		customer.get.getFoodMenuData().forEach(item -> {if ((item.typeDet.equals(allCategories.get(input1-1)) || input1 == allCategories.size()-1) && (item.vegetarian == veg || internal == 3)){ genericFunctions.printWithSpacing(a.getAndIncrement(), 7, item.nameOfFood, 35, item.price, 10, item.FoodID, 10, item.vegetarian ? "Veg" : "Non Veg", 30); System.out.println();}});
 		System.out.println();
+		addToCart(customer);
 	}
 
 	static void addToCart(Customer customer){
@@ -543,6 +544,7 @@ public class Main {
 				System.out.println("Invalid Input Adding single quantity");
 			}
 			customer.cart.addItemByCount(temp, quantity);
+
 			System.out.println("Item Added To Cart Successfully!");
 		}
 	}
@@ -590,6 +592,7 @@ public class Main {
 			System.out.println("Going to Previous Menu");
 			return;
 		}
+		no--;
 		Integer inp = inputTaker("Add Quantity", "Reduce Quantity", "Remove Item", "Previous Menu");
 		if (inp == null || inp == 4){
 			System.out.println("Going to Previous Menu");
@@ -615,6 +618,7 @@ public class Main {
 			customer.cart.addItemByCount(customer.cart.orderItems.get(no).x, amount);
 			System.out.println("Quantity Changed");
 		}else if (inp == 2){
+			System.out.print("Enter the Amount to be reduced:\t");
 			int amount;
 			try{
 				amount = kybrd.nextInt(); kybrd.nextLine();
@@ -625,7 +629,7 @@ public class Main {
 				customer.cart.decrementItem(customer.cart.orderItems.get(no).x);
 				return;
 			}
-			if (amount < 0) {
+			if (amount < 0 || amount > customer.cart.orderItems.get(no).y) {
 				System.out.println("Invalid Quantity");
 				System.out.println("Decrementing single quantity");
 				customer.cart.decrementItem(customer.cart.orderItems.get(no).x);
