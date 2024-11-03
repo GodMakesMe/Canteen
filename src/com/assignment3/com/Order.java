@@ -46,6 +46,7 @@ public class Order {
 	void incrementItem(FoodItem f){
 		addItemByCount(f, 1);
 	}
+	@SuppressWarnings("all")
 	void addItemByCount(FoodItem item, int count){
 		AtomicBoolean found = new AtomicBoolean(false);
 		orderItems.forEach(pair1 -> {
