@@ -88,7 +88,11 @@ public class FoodOrderingSystem {
 		class OrderData{
 			void addOrder(Order order){
 				if (ordersData.contains(order)){
-					order.setOrderId(orderNo++);
+//					order.setOrderId(orderNo++);
+					Order newOrder = new Order(order);
+					newOrder.setOrderId(orderNo++);
+					ordersData.add(newOrder);
+				}else {
 					ordersData.add(order);
 				}
 			}

@@ -43,6 +43,16 @@ public class Order {
 		orderItems = new ArrayList<>();
 		this.RaisedBy = raisedBy;
 	}
+	public Order(Order order){
+		RaisedBy = order.getRaisedBy();
+		orderItems = order.orderItems;
+		packed = order.packed;
+		delivered = order.delivered;
+		prepared = order.prepared;
+		feedback = order.feedback;
+		specialRequest = order.specialRequest;
+		initiateRefund = order.initiateRefund;
+	}
 	void incrementItem(FoodItem f){
 		addItemByCount(f, 1);
 	}

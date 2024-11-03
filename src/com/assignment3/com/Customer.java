@@ -67,6 +67,7 @@ public class Customer extends FoodOrderingSystem{
 		}
 		void placeOrder(){
 			instance.set.orderData.addOrder(cart);
+			previousOrders.add(cart);
 			newCart();
 		}
 		void placeOrder(Order neworder){
@@ -75,6 +76,7 @@ public class Customer extends FoodOrderingSystem{
 				return;
 			}
 			instance.set.orderData.addOrder(neworder);
+			previousOrders.add(neworder);
 		}
 		void initiateRefundForOrder(Order refundOrder){
 			instance.refundOrdersData.add(refundOrder);
