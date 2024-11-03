@@ -110,7 +110,7 @@ public class Order {
 		return feedback;
 	}
 	String getStatus(){
-		return this.delivered ? "Completed" : this.packed ? "Packed" : this.prepared ? "Prepared" : this.initiateRefund ? "Refunded" : "Need Refund";
+		return this.delivered ? "Completed" : this.packed ? "Packed" : this.prepared ? "Prepared" : this.initiateRefund ? "Need Refund" : "Preparing";
 	}
 	Integer getTotalPrice(){
 		AtomicInteger a = new AtomicInteger(0);

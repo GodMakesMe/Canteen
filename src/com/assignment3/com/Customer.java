@@ -76,7 +76,7 @@ public class Customer extends FoodOrderingSystem{
 				return;
 			}
 			instance.set.orderData.addOrder(neworder);
-			previousOrders.add(neworder);
+			previousOrders.add(instance.get.orderData.getOrderData().get(instance.get.orderData.getOrderData().size() - 1));
 		}
 		void initiateRefundForOrder(Order refundOrder){
 			instance.refundOrdersData.add(refundOrder);

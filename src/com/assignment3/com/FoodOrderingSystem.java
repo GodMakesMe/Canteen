@@ -93,6 +93,7 @@ public class FoodOrderingSystem {
 					newOrder.setOrderId(orderNo++);
 					ordersData.add(newOrder);
 				}else {
+					order.setOrderId(orderNo++);
 					ordersData.add(order);
 				}
 			}

@@ -739,7 +739,16 @@ public class Main {
 		if (inp == null || inp == 3) return;
 		if (inp == 1){
 			System.out.print("Enter the Order ID to reorder:\t");
-			customer.set.placeOrder(customer.get.specificPreviousOrder(inp));
+			int orderID;
+			try{
+				orderID = kybrd.nextInt();
+				kybrd.nextLine();
+			}catch(Exception e){
+				kybrd.nextLine();
+				System.out.println("Invalid Input");
+				return;
+			}
+			customer.set.placeOrder(customer.get.specificPreviousOrder(orderID));
 		}if (inp == 2){
 			boolean unpreparedOrder = false;
 			for (Order order : customer.previousOrders) {

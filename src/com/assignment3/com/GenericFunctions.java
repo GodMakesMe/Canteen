@@ -67,10 +67,10 @@ public class GenericFunctions {
 	}
 	void printOrder(Order order){
 		printCart(order);
-		System.out.print("Order Id:\t" + order.getOrderId());
-		System.out.print("Order Status:\t");
+		System.out.println("Order Id:\t" + order.getOrderId());
+		System.out.println("Order Status:\t");
 		System.out.println(order.getStatus());
-		if (!order.feedback.isEmpty()){
+		if (order.feedback != null){
 			System.out.println("Feedback:\t" + order.getFeedback());
 		}
 	}
