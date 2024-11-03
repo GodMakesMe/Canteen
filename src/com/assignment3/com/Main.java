@@ -686,8 +686,11 @@ public class Main {
 	static void giveReview(Customer customer){
 		System.out.println("All Unreviewed Orders.");
 		genericFunctions.printWithSpacing("S.no.", 10, "Order Id", 16, "Order Status", 17, "OrderTotalPrice", 14);
+		System.out.println();
 		AtomicInteger a = new AtomicInteger(1);
-		customer.previousOrders.forEach(order -> { if (order.feedback == null) {genericFunctions.printWithSpacing(a.getAndIncrement(), 10, order.getOrderId(), 16, order.getStatus(), 17, order.getTotalPrice(), 14);}});
+		customer.previousOrders.forEach(order -> { if (order.feedback == null) {genericFunctions.printWithSpacing(a.getAndIncrement(), 10, order.getOrderId(), 16, order.getStatus(), 17, order.getTotalPrice(), 14);
+			System.out.println();}});
+		System.out.println();
 		System.out.print("Enter the Order ID to give Feedback [0 to Skip]:\t");
 		int inp = 0;
 		try{
