@@ -3,7 +3,7 @@ package iiitd.assignment4;
 import java.io.*;
 import java.util.ArrayList;
 
-public class Admin extends FoodOrderingSystem{   // I hate there is a single admin
+public class Admin extends FoodOrderingSystem implements Serializable{   // I hate there is a single admin
 	FoodOrderingSystem instance;
 	private boolean adminLogin;
 	private final String LoginID;
@@ -25,22 +25,8 @@ public class Admin extends FoodOrderingSystem{   // I hate there is a single adm
 	void logOut(){
 		this.adminLogin = false;
 	}
-	protected class Setter{
-		void loadSavedItems(){
-			try{
-				BufferedReader reader = new BufferedReader(new FileReader("ItemData.txt"));
-				for (String line = reader.readLine(); line != null;){
-					String[] itemData = line.split(",");
-					FoodItem item = new FoodItem();
-					item.loaderDataFromString(itemData);
-					instance.get.getFoodMenuData().add(item);
-					item.FoodID = ItemNO++;
-				}
-			}catch(IOException e){
-				System.out.println("No Saved File System...");
-				return;
-			}
-		}
+	protected class Setter implements Serializable{
+
 		void addNewItem(FoodItem item){
 			if (item == null) return;
 			if (instance.get.getFoodMenuData().contains(item)){ return;}
@@ -82,10 +68,11 @@ public class Admin extends FoodOrderingSystem{   // I hate there is a single adm
 		void removeItem(FoodItem item){
 			if (!instance.get.getFoodMenuData().contains(item)){ return;}
 			instance.get.getFoodMenuData().remove(item);
+			instance.set.updateSavedItems();
 		}
 
 	}
-	protected class Getter{
+	protected class Getter implements Serializable{
 		String username(){
 			return LoginID;
 		}

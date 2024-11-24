@@ -1,9 +1,14 @@
 package iiitd.assignment4;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-class pair<Type0, Type1>{
+
+class pair<Type0, Type1> implements Serializable {
 	Type0 x;
 	Type1 y;
 	public pair(Type0 a, Type1 b){
@@ -29,7 +34,7 @@ class pair<Type0, Type1>{
 		return x.equals(pair.x) && y.equals(pair.y);
 	}
 }
-public class Order {
+public class Order implements Serializable {
 	private Integer OrderID = null;
 	final private Customer RaisedBy;
 	boolean packed = false;
@@ -43,6 +48,10 @@ public class Order {
 		orderItems = new ArrayList<>();
 		this.RaisedBy = raisedBy;
 	}
+	@Override
+	public String toString(){
+		return (RaisedBy.VIPStatus ? "VIP" : "NON-VIP") + "," + (OrderID != null ? OrderID.toString() : "ERROR") + "," + (RaisedBy.get.username() != null ? RaisedBy.get.username(): "Anonymous User") + "," + getStatus() + "," + getTotalPrice().toString() + "," + (getSpecialRequest() == null ? "NA" : getSpecialRequest());
+	}
 	public Order(Order order){
 		RaisedBy = order.getRaisedBy();
 		orderItems = order.orderItems;
@@ -54,20 +63,33 @@ public class Order {
 		initiateRefund = order.initiateRefund;
 		this.OrderID = order.OrderID;
 	}
-	void incrementItem(FoodItem f){
+	void incrementItem(FoodItem f) throws OUTOFSTOCK{
 		addItemByCount(f, 1);
 	}
 	@SuppressWarnings("all")
-	void addItemByCount(FoodItem item, int count){
+	void addItemByCount(FoodItem item, int count) throws OUTOFSTOCK{
 		AtomicBoolean found = new AtomicBoolean(false);
 		orderItems.forEach(pair1 -> {
 			if (pair1.x.equals(item)) {
+				if (pair1.y + count > item.foodLimit){
+					try {
+						throw new OUTOFSTOCK("OUT OF STOCK LIMIT!!");
+					} catch (OUTOFSTOCK e) {
+						throw new RuntimeException(e);
+					}
+//					return;
+				}
 				pair1.y+=count; found.set(true);
+				item.setFoodLimit(item.foodLimit-count);
 				return;
 			}
 		});
 		if (!found.get()){
-			orderItems.add(new pair<>(item, count));
+			if (count > item.foodLimit) throw new OUTOFSTOCK("Out OF STOCK LIMIT!!!");
+			else{
+				orderItems.add(new pair<>(item, count));
+				item.setFoodLimit(item.foodLimit-count);
+			}
 		}
 	}
 	void reduceItemByCount(FoodItem item, int count){
@@ -75,6 +97,7 @@ public class Order {
 			if (pair1.x.equals(item)) {
 				if (pair1.y > count) {
 					pair1.y -= count;
+					item.setFoodLimit(item.foodLimit+count);
 				} else {
 					removeItem(item);
 					break;
@@ -94,6 +117,7 @@ public class Order {
 			}
 		}
 		if (savePair != null){
+			item.setFoodLimit(item.foodLimit + savePair.y);
 			orderItems.remove(savePair);
 		}
 	}

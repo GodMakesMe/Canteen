@@ -32,20 +32,28 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <VBox prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iiitd.assignment4.HelloController">
   <children>
-    <MenuBar VBox.vgrow="NEVER">
+    <MenuBar style="-fx-background-color: #929849;" VBox.vgrow="NEVER">
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
@@ -84,10 +92,18 @@
         </Menu>
       </menus>
     </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="358.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="662.0" prefWidth="1024.0" VBox.vgrow="ALWAYS">
       <children>
-            <Text layoutX="403.0" layoutY="74.0" scaleX="3.0" scaleY="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome To IIITD Canteen Application " textAlignment="CENTER" wrappingWidth="221.16353917121887" />
-            <Text layoutX="404.0" layoutY="132.0" scaleX="3.0" scaleY="3.0" strokeType="OUTSIDE" strokeWidth="1.5" text="Byte Me!" textAlignment="CENTER" wrappingWidth="221.16353917121887">
+            <ImageView fitHeight="781.0" fitWidth="1025.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true">
+               <image>
+                  <Image url="@menuBackground.png" />
+               </image>
+            </ImageView>
+            <Text layoutX="401.0" layoutY="58.0" scaleX="3.0" scaleY="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome To IIITD Canteen Application " textAlignment="CENTER" wrappingWidth="221.16353917121887">
+               <font>
+                  <Font name="American Purpose" size="11.885714530944824" />
+               </font></Text>
+            <Text layoutX="401.0" layoutY="120.0" scaleX="3.0" scaleY="3.0" strokeType="OUTSIDE" strokeWidth="1.5" text="Byte Me!" textAlignment="CENTER" wrappingWidth="221.16353917121887">
                <stroke>
                   <LinearGradient endX="1.0" endY="1.0">
                      <stops>
@@ -104,7 +120,75 @@
                      </stops>
                   </LinearGradient>
                </stroke>
+               <font>
+                  <Font name="AngryBirds Regular" size="11.885714530944824" />
+               </font>
             </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#999360" height="220.0" layoutX="74.0" layoutY="207.0" stroke="BLACK" strokeType="INSIDE" width="878.0" />
+            <TableView fx:id="VIPView" layoutX="74.0" layoutY="206.0" opacity="0.77" prefHeight="220.0" prefWidth="880.0" style="-fx-border-color: #9e926d;">
+              <columns>
+                <TableColumn fx:id="orderIDColumn" prefWidth="68.57150268554688" style="-fx-background-color: #929849;" text="Order No" />
+                  <TableColumn fx:id="orderedByColumn" prefWidth="194.74293518066406" text="Ordered By" />
+                  <TableColumn fx:id="orderStatusColumn" prefWidth="217.59988403320312" sortable="false" text="Order Status" />
+                  <TableColumn fx:id="orderPriceColumn" prefWidth="92.34283447265625" text="Price" />
+                  <TableColumn fx:id="orderSpecialRequestsColumn" prefWidth="305.3714599609375" text="Special Request" />
+              </columns>
+            </TableView>
+            <Text layoutX="74.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="1.5" text="VIP" wrappingWidth="221.16353917121887">
+               <stroke>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.6592261791229248" green="0.35360392928123474" blue="0.35360392928123474" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </stroke>
+               <font>
+                  <Font name="AngryBirds Regular" size="28.0" />
+               </font>
+            </Text>
+            <Text layoutX="74.0" layoutY="468.0" strokeType="OUTSIDE" strokeWidth="1.5" text="NON-VIP" wrappingWidth="221.16353917121887">
+               <stroke>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.6592261791229248" green="0.35360392928123474" blue="0.35360392928123474" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </stroke>
+               <font>
+                  <Font name="AngryBirds Regular" size="28.0" />
+               </font>
+            </Text>
+            <TableView fx:id="NONVIPView" layoutX="74.0" layoutY="485.0" opacity="0.77" prefHeight="220.0" prefWidth="880.0" style="-fx-border-color: #9e926d;">
+               <columns>
+                  <TableColumn fx:id="orderIDColumn1" prefWidth="68.57150268554688" style="-fx-background-color: #929849;" text="Order No" />
+                  <TableColumn fx:id="orderedByColumn1" prefWidth="194.74293518066406" text="Ordered By" />
+                  <TableColumn fx:id="orderStatusColumn1" prefWidth="217.59988403320312" sortable="false" text="Order Status" />
+                  <TableColumn fx:id="orderPriceColumn1" prefWidth="92.34283447265625" text="Price" />
+                  <TableColumn fx:id="orderSpecialRequestsColumn1" prefWidth="305.3714599609375" text="Special Request" />
+               </columns>
+            </TableView>
+            <Button layoutX="50.0" layoutY="41.0" mnemonicParsing="false" onAction="#goToPreviousScreen" prefHeight="48.0" prefWidth="51.0" style="-fx-background-radius: 50;" />
+            <Line endX="-68.11428833007812" endY="7.62939453125E-6" layoutX="155.0" layoutY="65.0" startX="-90.971435546875" startY="7.62939453125E-6" />
+            <Line endX="65.10001373291016" endY="64.11428833007812" startX="74.95003509521484" startY="55.885711669921875" />
+            <Line endX="65.10001373291016" endY="64.11428833007812" layoutX="10.0" layoutY="10.0" startX="54.392913818359375" startY="54.82140350341797" />
       </children>
     </AnchorPane>
   </children>

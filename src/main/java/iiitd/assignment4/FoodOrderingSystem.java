@@ -1,9 +1,13 @@
 package iiitd.assignment4;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Vector;
 
-public class FoodOrderingSystem {
+public class FoodOrderingSystem implements Serializable{
 	private String sysName = null;
 	private int customersIDNumber = 1;
 	private int orderNo = 1;
@@ -31,10 +35,67 @@ public class FoodOrderingSystem {
 
 	}
 
-	protected class Setter{
+	protected class Setter implements Serializable {
+		void loadSavedItems(){
+			try{
+				BufferedReader reader = new BufferedReader(new FileReader("ItemData.txt"));
+				for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+					String[] itemData = line.split(",");
+					FoodItem item = new FoodItem();
+					item.loaderDataFromString(itemData);
+					item.FoodID = get.getFoodMenuData().size()+1;
+					get.getFoodMenuData().add(item);
+				}
+			}catch(IOException e){
+				System.out.println("No Saved File System...");
+				return;
+			}
+			updateSavedItems();
+		}void loadSavedOrderAndCarts(){
+			try{
+				BufferedReader reader = new BufferedReader(new FileReader("OrderData.txt"));
+				for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+					String[] itemData = line.split(",");
+					FoodItem item = new FoodItem();
+					item.loaderDataFromString(itemData);
+					item.FoodID = get.getFoodMenuData().size()+1;
+					get.getFoodMenuData().add(item);
+				}
+			}catch(IOException e){
+				System.out.println("No Saved File System...");
+				return;
+			}
+			updateSavedItems();
+		}
+		void saveOrdersAndCarts(){
+			try{
+				File myFile = new File("OrderDataForJavaFX.txt");
+				myFile.createNewFile();
+				BufferedWriter writer = new BufferedWriter(new FileWriter("OrderDataForJavaFX.txt"));
+				for (Order order : ordersData) {
+					writer.append(order.toString()).append("\n");
+				}
+				writer.close();
+			}catch(IOException e){
+				System.out.println(e.getMessage());
+			}
+		}
+		void updateSavedItems(){
+			try{
+				File myFile = new File("ItemData.txt");
+				myFile.createNewFile();
+				BufferedWriter writer = new BufferedWriter(new FileWriter("ItemData.txt"));
+				for (FoodItem items : get.getFoodMenuData()) {
+					writer.append(items.toString()).append("\n");
+				}
+				writer.close();
+			}catch(IOException e){
+				System.out.println(e.getMessage());
+			}
+		}
 		@SuppressWarnings("unused")
 		void setSysName(String name){ sysName = name; }
-		class AdminData{
+		class AdminData implements Serializable{
 			void addAdmin(Admin admin){
 				for (Admin i : adminsData){
 					if (i.equals(admin)){
@@ -59,7 +120,7 @@ public class FoodOrderingSystem {
 			}
 		}
 		final AdminData adminData = new AdminData();
-		class CustomerData{
+		class CustomerData implements Serializable{
 			void addCustomer(Customer customer){
 				for (Customer i : customersData){
 					if (i.equals(customer)){
@@ -85,24 +146,26 @@ public class FoodOrderingSystem {
 			}
 		}
 		final CustomerData customerData = new CustomerData();
-		class OrderData{
+		class OrderData implements Serializable{
 			void addOrder(Order order){
 				if (ordersData.contains(order)){
 //					order.setOrderId(orderNo++);
 					Order newOrder = new Order(order);
 					newOrder.setOrderId(orderNo++);
 					ordersData.add(newOrder);
+					set.saveOrdersAndCarts();
 				}else {
 					order.setOrderId(orderNo++);
 					ordersData.add(order);
+					set.saveOrdersAndCarts();
 				}
 			}
 		}
 		final OrderData orderData = new OrderData();
 	}
-	protected class Getter{
+	protected class Getter implements Serializable{
 		String getSysName(){ return sysName;}
-		protected class OrderData{
+		protected class OrderData implements Serializable {
 			ArrayList<Order> getOrderData(){
 				return ordersData;
 			}
@@ -116,7 +179,7 @@ public class FoodOrderingSystem {
 			}
 		}
 		final OrderData orderData = new OrderData();
-		protected class AdminData{
+		protected class AdminData implements Serializable {
 			@SuppressWarnings("unused")
 			ArrayList<Admin> getAdminData(){ return adminsData;}
 			Admin getAdminById(String UserId){
@@ -130,7 +193,7 @@ public class FoodOrderingSystem {
 			}
 		}
 		AdminData adminData = new AdminData();
-		protected class CustomerData{
+		protected class CustomerData implements Serializable{
 			ArrayList<Customer> getCustomerData(){ return customersData;}
 			int customerNumber(){
 				return customersIDNumber;
@@ -138,6 +201,9 @@ public class FoodOrderingSystem {
 			Customer getCustomerById(String UserId){
 				if (UserId == null || UserId.isEmpty()) return null;
 				for (Customer i : customersData){
+					if (i.get.username() == null){
+						return null;
+					}
 					if (i.get.username().equals(UserId)){
 						return i;
 					}

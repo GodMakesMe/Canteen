@@ -10,6 +10,8 @@ module iiitd.assignment4 {
 	requires org.kordamp.bootstrapfx.core;
 //	requires eu.hansolo.tilesfx;
 	requires com.almasb.fxgl.all;
+	requires junit;
+	requires org.testng;
 
 	opens iiitd.assignment4 to javafx.fxml;
 	exports iiitd.assignment4;

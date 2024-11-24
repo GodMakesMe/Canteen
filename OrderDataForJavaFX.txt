@@ -1,0 +1,1 @@
+NON-VIP,1,cust3,Preparing,0,NA

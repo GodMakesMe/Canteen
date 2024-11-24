@@ -37,11 +37,14 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <VBox prefHeight="720.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iiitd.assignment4.HelloController">
@@ -85,11 +88,19 @@
         </Menu>
       </menus>
     </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="358.0" prefWidth="640.0" style="-fx-background-color: #abcdef; -fx-background-radius: 5;" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="358.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
       <children>
-            <Button layoutX="451.0" layoutY="229.0" mnemonicParsing="false" onAction="#goToAdminMode" prefHeight="25.0" prefWidth="121.0" style="-fx-border-radius: 50; -fx-background-radius: 50;" text="Admin Mode" />
-            <Text layoutX="403.0" layoutY="74.0" scaleX="3.0" scaleY="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome To IIITD Canteen Application " textAlignment="CENTER" wrappingWidth="221.16353917121887" />
-            <Text layoutX="404.0" layoutY="132.0" scaleX="3.0" scaleY="3.0" strokeType="OUTSIDE" strokeWidth="1.5" text="Byte Me!" textAlignment="CENTER" wrappingWidth="221.16353917121887">
+            <ImageView fitHeight="769.0" fitWidth="1068.0" layoutX="-44.0" layoutY="-1.0">
+               <image>
+                  <Image url="@Background.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="450.0" layoutY="295.0" mnemonicParsing="false" onAction="#goToAdminMode" prefHeight="45.0" prefWidth="122.0" style="-fx-border-radius: 50; -fx-background-radius: 50;" text="Admin Mode" />
+            <Text layoutX="399.0" layoutY="73.0" scaleX="3.0" scaleY="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome To IIITD Canteen Application " textAlignment="CENTER" wrappingWidth="221.16353917121887">
+               <font>
+                  <Font name="American Purpose" size="10.0" />
+               </font></Text>
+            <Text layoutX="402.0" layoutY="114.0" scaleX="3.0" scaleY="3.0" strokeType="OUTSIDE" strokeWidth="1.5" text="Byte Me!" textAlignment="CENTER" wrappingWidth="221.16353917121887">
                <stroke>
                   <LinearGradient endX="1.0" endY="1.0">
                      <stops>
@@ -106,8 +117,11 @@
                      </stops>
                   </LinearGradient>
                </stroke>
+               <font>
+                  <Font name="AngryBirds Regular" size="10.0" />
+               </font>
             </Text>
-            <Button layoutX="454.0" layoutY="291.0" mnemonicParsing="false" onAction="#goToStudentMode" prefHeight="25.0" prefWidth="121.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" text="Customer Mode" />
+            <Button layoutX="453.0" layoutY="357.0" mnemonicParsing="false" onAction="#goToStudentMode" prefHeight="46.0" prefWidth="122.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" text="Customer Mode" />
       </children>
     </AnchorPane>
   </children>

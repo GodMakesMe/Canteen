@@ -1,9 +1,10 @@
 package iiitd.assignment4;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Vector;
 
-public class Customer extends FoodOrderingSystem{
+public class Customer extends FoodOrderingSystem implements Serializable {
 	FoodOrderingSystem instance;
 	boolean customerLogin;
 	String CustomerName;
@@ -25,6 +26,7 @@ public class Customer extends FoodOrderingSystem{
 		this.VIPStatus = false;
 		cart = new Order(this);
 	}
+
 	Customer(String LoginID, String Password){
 		super();
 		this.LoginID = LoginID;
@@ -42,7 +44,7 @@ public class Customer extends FoodOrderingSystem{
 		cart = new Order(this);
 	}
 
-	protected class Setter{
+	protected class Setter implements Serializable{
 		void customerID(int customerID){
 			CustomerID = customerID;
 		}
@@ -83,7 +85,7 @@ public class Customer extends FoodOrderingSystem{
 			refundOrder.initiateRefund();
 		}
 	}
-	protected class Getter {
+	protected class Getter implements Serializable {
 		String username(){
 			return LoginID;
 		}

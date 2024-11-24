@@ -4,6 +4,7 @@ package iiitd.assignment4;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import java.io.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Vector;
@@ -12,8 +13,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
-import java.io.IOException;
 
 public class Main extends Application {
 	static GenericFunctions genericFunctions = new GenericFunctions();
@@ -183,6 +182,27 @@ public class Main extends Application {
 			item.foodDescription = kybrd.nextLine();
 			if (selected == 3){
 				item.changeTypeDet(category);
+			}
+		}
+		System.out.println("Do you want to add limit:\t");
+		Integer limitInputAsker = inputTaker("Yes", "No");
+		if (limitInputAsker != null && limitInputAsker == 1){
+			int limit;
+			while (true) {
+				System.out.print("Enter Limit [Stock]:\t");
+				try{
+					limit = kybrd.nextInt();
+					kybrd.nextLine();
+					assert item != null;
+					item.setFoodLimit(limit);
+				}catch (InputMismatchException j){
+					kybrd.nextLine();
+					System.out.println("Please enter a valid limit.");
+					continue;
+				}catch (AssertionError e){
+					break;
+				}
+				break;
 			}
 		}
 		admin.set.addNewItem(item);
@@ -371,6 +391,7 @@ public class Main extends Application {
 		System.out.println("Login Successful!");
 		newAdmin = mainSystem.get.adminData.getAdminById(userInput.get(0));
 		while (true){
+			mainSystem.set.updateSavedItems();
 			Integer selectedOption = inputTaker("Manage Menu", "Manage Orders", "Manage Records", "LogOut as Admin");
 			if (selectedOption == null){
 				continue;
@@ -552,8 +573,11 @@ public class Main extends Application {
 				kybrd.nextLine();
 				System.out.println("Invalid Input Adding single quantity");
 			}
-			customer.cart.addItemByCount(temp, quantity);
-
+			try {
+				customer.cart.addItemByCount(temp, quantity);
+			}catch (OUTOFSTOCK e){
+				System.out.println(e.getMessage());
+			}
 			System.out.println("Item Added To Cart Successfully!");
 		}
 	}
@@ -615,16 +639,28 @@ public class Main extends Application {
 				kybrd.nextLine();
 				System.out.println("Invalid Quantity");
 				System.out.println("Incrementing single quantity");
+				try{
 				customer.cart.incrementItem(customer.cart.orderItems.get(no).x);
+				}catch (OUTOFSTOCK a){
+					System.out.println(a.getMessage());
+				}
 				return;
 			}
 			if (amount < 0){
 				System.out.println("Invalid Quantity");
 				System.out.println("Incrementing single quantity");
-				customer.cart.incrementItem(customer.cart.orderItems.get(no).x);
+				try{
+					customer.cart.incrementItem(customer.cart.orderItems.get(no).x);
+				}catch (OUTOFSTOCK e){
+					System.out.println(e.getMessage());
+				}
 				return;
 			}
-			customer.cart.addItemByCount(customer.cart.orderItems.get(no).x, amount);
+			try {
+				customer.cart.addItemByCount(customer.cart.orderItems.get(no).x, amount);
+			}catch (OUTOFSTOCK e){
+				System.out.println(e.getMessage());
+			}
 			System.out.println("Quantity Changed");
 		}else if (inp == 2){
 			System.out.print("Enter the Amount to be reduced:\t");
@@ -675,6 +711,7 @@ public class Main extends Application {
 		if (k == 1){
 			System.out.println("Payment Successful");
 			customer.set.placeOrder();
+			customer.instance.set.updateSavedItems();
 		}
 	}
 
@@ -823,6 +860,7 @@ public class Main extends Application {
 		}
 		mainSystem.set.customerData.addCustomer(newCustomer);
 		while (true){
+			mainSystem.set.updateSavedItems();
 			Integer selectedOption = inputTaker("Membership Status", "Browse Menu", "Manage Cart", "Previous Orders", "Give Reviews", "LogOut as Customer");
 			if (selectedOption == null){
 				System.out.println("Invalid Input!");
@@ -851,6 +889,23 @@ public class Main extends Application {
 		stage.show();
 	}
 
+	static void SerializeFullSystem(FoodOrderingSystem mainSystem){
+		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ByteMe"))) {
+			out.writeObject(mainSystem);
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	static FoodOrderingSystem LoadFullSystem() {
+		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("ByteMe"))) {
+			return (FoodOrderingSystem) in.readObject();
+		} catch (IOException | ClassNotFoundException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+
 	public static void main(String[] args) {
 		String nameOfOrganisation;
 //		nameOfOrganisation = kybrd.nextLine();
@@ -858,12 +913,26 @@ public class Main extends Application {
 		FoodOrderingSystem mainSystem = new FoodOrderingSystem(nameOfOrganisation);
 		System.out.println("Welcome To IIITD Canteen App::\t" + mainSystem.get.getSysName());
 		mainSystem.set.adminData.addAdmin(new Admin());
+		System.out.println("Do You Want To Load Presets:---");
+		Integer presetSelection = inputTaker("Yes", "No");
+		if (presetSelection == null || presetSelection != 1){
+			System.out.println("Invalid Input. Not Loading Presets");
+		}else{
+			FoodOrderingSystem sys = LoadFullSystem();
+			if (sys != null){
+				mainSystem = sys;
+			}else{
+				mainSystem.set.loadSavedItems();
+				mainSystem.set.loadSavedOrderAndCarts();
+			}
+		}
 		while (true){
 			Integer selectedOption = inputTaker("Admin", "Customer", "Exit");
 			if (selectedOption == null){
 				continue;
 			}
 			if (selectedOption == 3){
+				SerializeFullSystem(mainSystem);
 				break;
 			}
 			else if (selectedOption == 1){
@@ -872,6 +941,7 @@ public class Main extends Application {
 			else if (selectedOption == 2){
 				customerOptions(mainSystem);
 			}
+			mainSystem.set.updateSavedItems();
 		}
 		launch();
 	}
