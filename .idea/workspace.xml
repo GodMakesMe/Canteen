@@ -5,24 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5f1a04c3-43e5-4438-99da-4590ddfbc1fe" name="Changes" comment="New Assignment 4 Loaded with Assignment 3 with Improvements and fileHandling and Menu Handling Only Order Handling is not created Now.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/CustomerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/FoodItemTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/FoodOrderingSystemTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/OUTOFSTOCK.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/OrderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ByteMe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ItemData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ItemData.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OrderDataForJavaFX.txt" beforeDir="false" afterPath="$PROJECT_DIR$/OrderDataForJavaFX.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/Admin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/Customer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/FoodItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/FoodItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/FoodOrderingSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/FoodOrderingSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/FoodOrderingSystemTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/FoodOrderingSystemTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/GenericFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/GenericFunctions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/HelloController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/iiitd/assignment4/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/iiitd/assignment4/AdminMode.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/iiitd/assignment4/AdminMode.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/iiitd/assignment4/StudentMode.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/iiitd/assignment4/StudentMode.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/iiitd/assignment4/assignment-4.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/iiitd/assignment4/assignment-4.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,34 +53,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.ByteMe!!.executor": "Run",
-    "Application.HelloApplication.executor": "Run",
-    "Application.Main.executor": "Run",
-    "JUnit.CustomerTest.checkCustomerName.executor": "Run",
-    "JUnit.CustomerTest.checkLogOut.executor": "Run",
-    "JUnit.CustomerTest.checkLoginStatus.executor": "Run",
-    "JUnit.CustomerTest.checkVIPStatus.executor": "Run",
-    "JUnit.FoodItemTest.executor": "Run",
-    "JUnit.FoodOrderingSystemTest.executor": "Run",
-    "JUnit.FoodOrderingSystemTest.testOUTOFSTOCK.executor": "Run",
-    "JUnit.OrderTest.executor": "Run",
-    "JUnit.mainSystemTest.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/Project/Java/Assignment-4/src/test/iiitd/assignment4",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.ByteMe!!.executor&quot;: &quot;Run&quot;,
+    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CustomerTest.checkCustomerName.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CustomerTest.checkLogOut.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CustomerTest.checkLoginStatus.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CustomerTest.checkVIPStatus.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FoodItemTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FoodOrderingSystemTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FoodOrderingSystemTest.testOUTOFSTOCK.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.OrderTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.mainSystemTest.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/Project/Java/Assignment-4/src/test/iiitd/assignment4&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\Project\Java\Assignment-4\src\test\iiitd\assignment4" />
@@ -253,7 +248,11 @@
       <updated>1732203143190</updated>
       <workItem from="1732203144216" duration="8536000" />
       <workItem from="1732277239813" duration="13018000" />
-      <workItem from="1732384373171" duration="21056000" />
+      <workItem from="1732384373171" duration="26120000" />
+      <workItem from="1732662324325" duration="301000" />
+      <workItem from="1733047198177" duration="3837000" />
+      <workItem from="1733659805270" duration="617000" />
+      <workItem from="1733673848081" duration="702000" />
     </task>
     <task id="LOCAL-00001" summary="New Assignment 4 Loaded with Assignment 3 with Improvements and fileHandling and Menu Handling Only Order Handling is not created Now.">
       <option name="closed" value="true" />
@@ -263,7 +262,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732277442819</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="New Assignment 4 Loaded with Assignment 3 with Improvements and fileHandling and Menu Handling Only Order Handling is not created Now.">
+      <option name="closed" value="true" />
+      <created>1732424162857</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1732424162857</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -1,1 +1,3 @@
-NON-VIP,1,cust3,Preparing,0,NA
+VIP,1,adolph,Preparing,840,Make Perfect Or I will Erase You Race.
+NON-VIP,2,modiji,Preparing,50000,You Know Whose Meat To Put; If you know me.
+NON-VIP,3,modiji,Preparing,680,Nostalgia; Deja Vu

@@ -16,6 +16,7 @@ public class FoodOrderingSystem implements Serializable{
 	private ArrayList<FoodItem> foodMenuData = new ArrayList<>();
 	private ArrayList<Order> ordersData = new ArrayList<>();
 	protected ArrayList<Order> refundOrdersData = new ArrayList<>();
+	private boolean toSaveOrSerialize = true;
 	public FoodOrderingSystem(String name) {
 		this.sysName = name;
 	}
@@ -36,7 +37,11 @@ public class FoodOrderingSystem implements Serializable{
 	}
 
 	protected class Setter implements Serializable {
+		void setSaveSerialization(Boolean input){
+			toSaveOrSerialize = input;
+		}
 		void loadSavedItems(){
+			if(!toSaveOrSerialize) return;
 			try{
 				BufferedReader reader = new BufferedReader(new FileReader("ItemData.txt"));
 				for (String line = reader.readLine(); line != null; line = reader.readLine()) {
@@ -52,6 +57,7 @@ public class FoodOrderingSystem implements Serializable{
 			}
 			updateSavedItems();
 		}void loadSavedOrderAndCarts(){
+			if(!toSaveOrSerialize) return;
 			try{
 				BufferedReader reader = new BufferedReader(new FileReader("OrderData.txt"));
 				for (String line = reader.readLine(); line != null; line = reader.readLine()) {
@@ -68,6 +74,7 @@ public class FoodOrderingSystem implements Serializable{
 			updateSavedItems();
 		}
 		void saveOrdersAndCarts(){
+			if(!toSaveOrSerialize) return;
 			try{
 				File myFile = new File("OrderDataForJavaFX.txt");
 				myFile.createNewFile();
@@ -81,6 +88,7 @@ public class FoodOrderingSystem implements Serializable{
 			}
 		}
 		void updateSavedItems(){
+			if (!toSaveOrSerialize) return;
 			try{
 				File myFile = new File("ItemData.txt");
 				myFile.createNewFile();
@@ -164,6 +172,9 @@ public class FoodOrderingSystem implements Serializable{
 		final OrderData orderData = new OrderData();
 	}
 	protected class Getter implements Serializable{
+		Boolean getToSaveOrSerializable(){
+			return toSaveOrSerialize;
+		}
 		String getSysName(){ return sysName;}
 		protected class OrderData implements Serializable {
 			ArrayList<Order> getOrderData(){

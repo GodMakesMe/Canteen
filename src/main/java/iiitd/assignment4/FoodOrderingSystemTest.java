@@ -19,6 +19,7 @@ public class FoodOrderingSystemTest {
 	@Before
 	public void setUp() {
 		system = new FoodOrderingSystem("Test System");
+		system.set.setSaveSerialization(false);
 		getter = system.get;
 		setter = system.set;
 		Admin admin = new Admin("admin1", "password");

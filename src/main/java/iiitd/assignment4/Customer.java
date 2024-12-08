@@ -35,6 +35,7 @@ public class Customer extends FoodOrderingSystem implements Serializable {
 		this.CustomerID = null;
 		this.CustomerName = null;
 		this.customerLogin = false;
+		cart = new Order(this);
 	}
 	void logOut(){
 		customerLogin = false;

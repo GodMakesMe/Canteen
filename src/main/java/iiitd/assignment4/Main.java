@@ -106,10 +106,10 @@ public class Main extends Application {
 
 	static void viewFoodItems(FoodOrderingSystem admin){
 		int a = 1;
-		genericFunctions.printWithSpacing("S.no.", 7, "Name Of Food", 35, "Category", 15, "Veg Or Non-Veg", 20,"Price", 10, "Item No.", 10);
+		genericFunctions.printWithSpacing("S.no.", 7, "Name Of Food", 35, "Category", 15, "Veg Or Non-Veg", 20,"Price", 10, "Stock", 10,"Item No.", 10);
 		System.out.println();
 		for (FoodItem i : admin.get.getFoodMenuData()){
-			genericFunctions.printWithSpacing(a++, 7, i.nameOfFood, 35, i.typeDet, 15, i.vegetarian ? "Veg" : "Non Veg", 20, i.price, 10, i.FoodID, 10);
+			genericFunctions.printWithSpacing(a++, 7, i.nameOfFood, 35, i.typeDet, 15, i.vegetarian ? "Veg" : "Non Veg", 20, i.price, 10, i.foodLimit, 10, i.FoodID, 10);
 			System.out.println();
 		}
 	}
@@ -232,8 +232,8 @@ public class Main extends Application {
 		FoodItem item = getItem(admin);
 		if (item == null){ return;}
 		genericFunctions.printItem(item);
-		Integer selectedOption = inputTaker("Change Item Name", "Change Item Category", "Change Price", "Change Description", "Previous Menu");
-		if (selectedOption == null || selectedOption == 5){ return;}
+		Integer selectedOption = inputTaker("Change Item Name", "Change Item Category", "Change Price", "Change Description", "Change Stock", "Previous Menu");
+		if (selectedOption == null || selectedOption == 6){ return;}
 		if (selectedOption == 1){
 			System.out.println("Enter New Name:\t");
 			item.nameOfFood = kybrd.nextLine();
@@ -253,6 +253,17 @@ public class Main extends Application {
 		}if (selectedOption == 4){
 			System.out.print("Enter New Description:\t");
 			item.foodDescription = kybrd.nextLine();
+		}if (selectedOption == 5){
+			System.out.println("Old Stock:\t" + item.foodLimit);
+			System.out.print("Enter New Stock Count:\t");
+			try{
+				item.setFoodLimit(kybrd.nextInt());
+				kybrd.nextLine();
+			}catch (InputMismatchException e){
+				kybrd.nextLine();
+				System.out.println("Invalid input.");
+				return;
+			}
 		}
 		System.out.println("Details Changed Successfully.");
 	}
@@ -508,7 +519,7 @@ public class Main extends Application {
 		genericFunctions.printWithSpacing("S.no.", 7, "Name Of Food", 35, "Category", 15, "Veg Or Non-Veg", 20,"Price", 10, "Item No.", 10);
 		System.out.println();
 		for (FoodItem i : customer.get.getFoodMenuData()){
-			if (i.nameOfFood.toLowerCase().contains(input)){
+			if (i.nameOfFood.toLowerCase().contains(input.toLowerCase())){
 				genericFunctions.printWithSpacing(a++, 7, i.nameOfFood, 35, i.typeDet, 15, i.vegetarian ? "Veg" : "Non Veg", 20, i.price, 10, i.FoodID, 10);
 				System.out.println();
 			}
@@ -658,10 +669,11 @@ public class Main extends Application {
 			}
 			try {
 				customer.cart.addItemByCount(customer.cart.orderItems.get(no).x, amount);
+				System.out.println("Quantity Changed");
 			}catch (OUTOFSTOCK e){
 				System.out.println(e.getMessage());
 			}
-			System.out.println("Quantity Changed");
+
 		}else if (inp == 2){
 			System.out.print("Enter the Amount to be reduced:\t");
 			int amount;
@@ -916,7 +928,7 @@ public class Main extends Application {
 		System.out.println("Do You Want To Load Presets:---");
 		Integer presetSelection = inputTaker("Yes", "No");
 		if (presetSelection == null || presetSelection != 1){
-			System.out.println("Invalid Input. Not Loading Presets");
+			System.out.println("Not Loading Presets");
 		}else{
 			FoodOrderingSystem sys = LoadFullSystem();
 			if (sys != null){
@@ -933,6 +945,8 @@ public class Main extends Application {
 			}
 			if (selectedOption == 3){
 				SerializeFullSystem(mainSystem);
+				mainSystem.set.updateSavedItems();
+				mainSystem.set.saveOrdersAndCarts();
 				break;
 			}
 			else if (selectedOption == 1){
@@ -941,7 +955,9 @@ public class Main extends Application {
 			else if (selectedOption == 2){
 				customerOptions(mainSystem);
 			}
+			SerializeFullSystem(mainSystem);
 			mainSystem.set.updateSavedItems();
+			mainSystem.set.saveOrdersAndCarts();
 		}
 		launch();
 	}

@@ -12,7 +12,8 @@ public class GenericFunctions {
 		return "null";
 	}
 	<T> void print(T a){
-		System.out.print(a);
+		if (a == null) System.out.print("null");
+		else System.out.print(a);
 	}
 	<T> void print(T a, String end){
 		print(a);
@@ -40,6 +41,7 @@ public class GenericFunctions {
 		printWithSpacing("Item Price:", 40); print(item.price, "\n");
 		printWithSpacing("Item Veg:", 40); print(item.vegetarian, item.vegetarian ? "\tVegetarian\n" : "\tNon-Vegetarian\n");
 		printWithSpacing("Item Description:", 40); print(item.foodDescription, "\n");
+		printWithSpacing("Stock:", 40); print(item.foodLimit, "\n");
 	}
 	@SuppressWarnings("all")
 	<T> void printWithSpacing(T s1, int i, T s2, int i1, T s3, int i2, T s4, int i3, T s5, int i4) {
@@ -53,6 +55,7 @@ public class GenericFunctions {
 	}
 
 	void printCart(Order cart){
+		if (cart == null) return;
 		System.out.println("Cart Items:---");
 		printWithSpacing("S.No.", 9, "Item No.", 15,"Food Name", 40,"Veg/NonVeg", 15, "Quantity", 11,"Price",5);
 		System.out.println();
@@ -73,5 +76,10 @@ public class GenericFunctions {
 		if (order.feedback != null){
 			System.out.println("Feedback:\t" + order.getFeedback());
 		}
+	}
+
+	public <T> void printWithSpacing(T s, int i, T s1, int i1, T s2, int i2, T s3, int i3, T s4, int i4, T s5, int i5, T s6, int i6) {
+		printWithSpacing(s, i, s1, i1, s2, i2, s3, i3);
+		printWithSpacing(s4, i4, s5, i5, s6, i6);
 	}
 }

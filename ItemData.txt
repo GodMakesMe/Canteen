@@ -1,1 +1,8 @@
-Cheese Maggi,40,true,General,,1,0
+Masala Tea,40,true,Drink,,1,0
+Normal Tea,10,true,Drink,classic,2,0
+Paneer Butter Masala,250,true,General,Our Best Cuisine Indian,3,0
+Aloo Burger,30,true,Burgers,Crispy Potato,4,0
+Human Burger,100,false,Burgers,Illegal But No Problem,5,0
+Hakka Noodles,140,true,Noodles,healthy homecooked style,6,0
+Dahi Jalebi,30,true,Morning,Kanpur's Special,7,0
+Banana Chips,160,true,Chips,Direct From Kerala,8,0

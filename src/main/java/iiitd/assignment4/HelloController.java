@@ -107,7 +107,7 @@ public class HelloController {
 
 
 	@FXML
-	private TableView<Map<String, Object>> VIPView = new TableView<>();  // Use the fx:id from Scene Builder
+	private TableView<Map<String, Object>> VIPView = new TableView<>();
 
 	@FXML
 	private TableColumn<Map<String, Object>, String> orderIDColumn = new TableColumn<>();
@@ -123,6 +123,8 @@ public class HelloController {
 
 	@FXML
 	private TableColumn<Map<String, Object>, String> orderSpecialRequestsColumn = new TableColumn<>();
+
+
 	@FXML
 	private TableView<Map<String, Object>> NONVIPView = new TableView<>();  // Use the fx:id from Scene Builder
 
@@ -196,13 +198,13 @@ public class HelloController {
 						row.put("OrderSpecialRequests", itemData[5]);
 						orders.add(row);
 					}else{
-						Map<String, Object> row = new HashMap<>();
-						row.put("OrderID1", itemData[1]);
-						row.put("OrderedBy1", itemData[2]);
-						row.put("OrderStatus1", itemData[3]);
-						row.put("OrderPrice1", itemData[4]);
-						row.put("OrderSpecialRequests1", itemData[5]);
-						orders1.add(row);
+						Map<String, Object> row1 = new HashMap<>();
+						row1.put("OrderID1", itemData[1]);
+						row1.put("OrderedBy1", itemData[2]);
+						row1.put("OrderStatus1", itemData[3]);
+						row1.put("OrderPrice1", itemData[4]);
+						row1.put("OrderSpecialRequests1", itemData[5]);
+						orders1.add(row1);
 					}
 //					FoodItem item = new FoodItem();
 //					item.loaderDataFromString(itemData); // Load data into FoodItem
@@ -213,6 +215,7 @@ public class HelloController {
 			}
 			VIPView.setItems(orders);
 			NONVIPView.setItems(orders1);
+			NONVIPView.setVisible(true);
 		} catch (IOException e) {
 			System.out.println("Error reading from file: " + e.getMessage());
 		}

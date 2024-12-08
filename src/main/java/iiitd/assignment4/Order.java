@@ -50,6 +50,9 @@ public class Order implements Serializable {
 	}
 	@Override
 	public String toString(){
+		if (getSpecialRequest() != null && getSpecialRequest().contains(",")){
+			specialRequest =  getSpecialRequest().replace(',', ';');
+		}
 		return (RaisedBy.VIPStatus ? "VIP" : "NON-VIP") + "," + (OrderID != null ? OrderID.toString() : "ERROR") + "," + (RaisedBy.get.username() != null ? RaisedBy.get.username(): "Anonymous User") + "," + getStatus() + "," + getTotalPrice().toString() + "," + (getSpecialRequest() == null ? "NA" : getSpecialRequest());
 	}
 	public Order(Order order){
@@ -69,23 +72,23 @@ public class Order implements Serializable {
 	@SuppressWarnings("all")
 	void addItemByCount(FoodItem item, int count) throws OUTOFSTOCK{
 		AtomicBoolean found = new AtomicBoolean(false);
+		AtomicBoolean raiseError = new AtomicBoolean(false);
 		orderItems.forEach(pair1 -> {
 			if (pair1.x.equals(item)) {
 				if (pair1.y + count > item.foodLimit){
-					try {
-						throw new OUTOFSTOCK("OUT OF STOCK LIMIT!!");
-					} catch (OUTOFSTOCK e) {
-						throw new RuntimeException(e);
-					}
-//					return;
+					raiseError.set(true);
+					return;
 				}
 				pair1.y+=count; found.set(true);
 				item.setFoodLimit(item.foodLimit-count);
 				return;
 			}
 		});
+		if (raiseError.get()) {
+			throw new OUTOFSTOCK("OUT OF STOCK LIMIT");
+		}
 		if (!found.get()){
-			if (count > item.foodLimit) throw new OUTOFSTOCK("Out OF STOCK LIMIT!!!");
+			if (count > item.foodLimit) throw new OUTOFSTOCK("OUT OF STOCK LIMIT!!!");
 			else{
 				orderItems.add(new pair<>(item, count));
 				item.setFoodLimit(item.foodLimit-count);
